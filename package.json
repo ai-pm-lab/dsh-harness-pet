@@ -1,0 +1,136 @@
+{
+  "name": "dsh-harness-pet",
+  "productName": "胖头鱼",
+  "version": "0.3.0",
+  "description": "胖头鱼 · DSH 桌宠 —— 一个始终置顶的 macOS 桌面宠物，盯着你的 DeepSeek Harness agent 干活",
+  "author": "ai-pm-lab",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ai-pm-lab/dsh-harness-pet.git"
+  },
+  "homepage": "https://github.com/ai-pm-lab/dsh-harness-pet#readme",
+  "bugs": {
+    "url": "https://github.com/ai-pm-lab/dsh-harness-pet/issues"
+  },
+  "keywords": [
+    "desktop-pet",
+    "macos",
+    "electron",
+    "deepseek-harness",
+    "dsh",
+    "桌宠",
+    "pet"
+  ],
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "start:mac": "./start.sh",
+    "start:demo": "electron . --demo",
+    "test": "node test-modules.mjs && node test-plugin.mjs && node test-bubble.mjs && node test-translate.mjs && node test-dialogues.mjs && node test-petspec.mjs && node test-mainmenu.mjs && node test-launch.mjs && node tools/run-electron.mjs --no-sandbox test-selftest.cjs",
+    "verify:assets": "./verify-assets.sh",
+    "icon": "python3 tools/make_icon.py",
+    "smoke:renderer": "node shot-pet.mjs",
+    "preview": "electron src/renderer/preview.html",
+    "build:cutout": "mkdir -p .cache/swift && swiftc -O -module-cache-path \"$PWD/.cache/swift\" -o tools/cutout tools/cutout.swift",
+    "test:selftest": "node tools/run-electron.mjs --no-sandbox test-selftest.cjs",
+    "build:demo": "node tools/build-demo.mjs",
+    "dump:spec": "electron tools/dump-spec.cjs",
+    "new:pet": "node tools/new-pet.mjs",
+    "verify:pet": "node tools/verify-pet.mjs",
+    "preflight": "bash tools/preflight.sh",
+    "build:mac": "electron-builder --mac dmg && rm -rf dist/mac-arm64 dist/mac",
+    "build:dir": "electron-builder --mac dir",
+    "build:clean": "rm -rf dist && electron-builder --mac dmg && rm -rf dist/mac-arm64 dist/mac",
+    "soak": "bash tools/soak.sh",
+    "build:win": "electron-builder --win nsis --x64 && rm -rf dist/win-unpacked dist/win-arm64-unpacked",
+    "build:win:clean": "rm -rf dist && electron-builder --win nsis --x64 && rm -rf dist/win-unpacked dist/win-arm64-unpacked",
+    "test:unit": "node test-modules.mjs && node test-plugin.mjs && node test-bubble.mjs && node test-translate.mjs && node test-dialogues.mjs && node test-petspec.mjs && node test-mainmenu.mjs && node test-launch.mjs"
+  },
+  "build": {
+    "appId": "dev.pangtouyu.pet",
+    "productName": "胖头鱼",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "dialogues/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "pet-plugin",
+        "to": "pet-plugin"
+      }
+    ],
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.entertainment",
+      "icon": "build/icon.icns",
+      "extendInfo": {
+        "LSUIElement": true
+      },
+      "identity": "-",
+      "hardenedRuntime": true,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "artifactName": "pangtouyu-${version}-${arch}.${ext}"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico",
+      "artifactName": "pangtouyu-${version}-setup.${ext}"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "icon": "build/icon.png",
+      "category": "Utility"
+    },
+    "dmg": {
+      "title": "胖头鱼 ${version}",
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "胖头鱼",
+      "deleteAppDataOnUninstall": false
+    }
+  },
+  "dependencies": {
+    "ws": "^8.21.3"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^26.15.3"
+  },
+  "private": true
+}

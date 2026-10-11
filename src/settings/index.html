@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self';" />
+  <title>设置翻译接口</title>
+  <link rel="stylesheet" href="settings.css" />
+</head>
+<body>
+  <h1>设置翻译接口</h1>
+  <p class="hint">
+    任何 OpenAI 兼容接口都可以：DeepSeek、OpenAI、Kimi、本地 Ollama…
+  </p>
+
+  <label for="baseUrl">API 地址</label>
+  <input id="baseUrl" type="text" spellcheck="false" placeholder="https://api.deepseek.com/v1" />
+
+  <label for="apiKey">API Key</label>
+  <div class="row">
+    <!--
+      type="password"：全程 * 号遮罩，但**仍然可以正常编辑**。
+      这是"默认脱敏"和"可编辑"能共存的关键 —— 值是真的在输入框里，
+      只是不显示在屏幕上（防肩窥、防截图）。刻意不提供"显示明文"按钮。
+    -->
+    <input id="apiKey" type="password" spellcheck="false" autocomplete="off"
+           placeholder="sk-…" />
+    <button id="test" type="button">测试</button>
+  </div>
+  <!-- 状态文本固定在输入框下方，位置不跳动 -->
+  <p id="status" class="status" aria-live="polite"></p>
+
+  <label for="model">模型名</label>
+  <input id="model" type="text" spellcheck="false" placeholder="deepseek-chat" />
+
+  <div class="buttons">
+    <button id="cancel" type="button" class="ghost">取消</button>
+    <button id="save" type="button" class="primary">保存</button>
+  </div>
+
+  <script src="settings.js"></script>
+</body>
+</html>

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>胖头鱼 · 逐帧动画预览</title>
+<style>
+  :root {
+    --bg: #1b2130;
+    --panel: #232b3d;
+    --line: #33405a;
+    --text: #e8edf7;
+    --dim: #8e9cb8;
+    --accent: #6ea8ff;
+    --accent-bg: #2f6fd0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font: 14px/1.6 -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 36px 20px 60px;
+  }
+
+  h1 { margin: 0 0 6px; font-size: 22px; font-weight: 700; }
+  .sub { margin: 0 0 26px; color: var(--dim); font-size: 13px; }
+
+  /* 舞台：和她真实的窗口同尺寸（220×240），这样看到的比例就是真实比例 */
+  #stage {
+    position: relative;
+    width: 220px;
+    height: 240px;
+    background: var(--panel);
+    border: 1px dashed var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  /* 录制模式：把舞台放大到 512 —— 正好是素材的原始分辨率。
+     录屏时用这个尺寸，抽出来的帧就是无损的（真实窗口只有 220，白丢一半像素）。 */
+  body.rec #stage {
+    width: 512px;
+    height: 512px;
+  }
+  body.rec #stage::after { content: "512 × 512  ·  素材原始分辨率（录制用）"; }
+  #recBtn {
+    margin-left: 10px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #4b5568;
+    cursor: pointer;
+  }
+  #stage::after {
+    content: "220 × 240  ·  和真实窗口同尺寸";
+    position: absolute;
+    left: 0; right: 0; bottom: 6px;
+    text-align: center;
+    font-size: 10px;
+    color: #5b6884;
+  }
+  #pet {
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 220px;
+    height: 220px;
+    display: block;
+  }
+
+  /* 当前帧读数 */
+  #readout {
+    margin: 14px 0 24px;
+    font: 12px/1.6 ui-monospace, Menlo, Consolas, monospace;
+    color: var(--dim);
+    text-align: center;
+    min-height: 38px;
+  }
+  #readout b { color: var(--accent); font-weight: 600; }
+  #readout span { color: #5b6884; }
+
+  /* 按钮区 */
+  .group { width: 100%; max-width: 760px; margin-bottom: 16px; }
+  .group > h2 {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    color: #5b6884;
+    margin: 0 0 8px;
+    text-transform: uppercase;
+  }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  button {
+    font: inherit;
+    font-size: 13px;
+    color: var(--text);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 7px 15px;
+    cursor: pointer;
+    transition: background .12s ease, border-color .12s ease, color .12s ease;
+  }
+  button:hover { border-color: #4a5c80; background: #2b3448; }
+  button.on {
+    background: var(--accent-bg);
+    border-color: var(--accent-bg);
+    color: #fff;
+  }
+  button small { opacity: .55; margin-left: 5px; font-size: 11px; }
+
+  /*
+   * 按「怎么动的」区分按钮 —— 一眼看出哪些其实是定格的。
+   *
+   * ⚠️ 「静止」那一类用**灰底 + 虚线**是有意的：
+   *    `drowsy` 和 `patHappy` 是 3 帧同图重复又没位移，
+   *    代码上看像有动画、实际完全是定格的。作者要求去掉它们的位移之后就变成这样 ——
+   *    不加区分的话，预览页会让人以为它们在动。
+   */
+  button[data-motion="morph"] { border-left: 3px solid #4a90e2; }
+  button[data-motion="shift"] { border-left: 3px solid #e2a04a; }
+  button[data-motion="both"]  { border-left: 3px solid #5cc08a; }
+  button[data-motion="still"] { border-left: 3px dashed #6b7280; opacity: .78; }
+
+  /* 台词气泡：和 App 里那个同一套观感（圆角、左侧留个小尖） */
+  .say {
+    position: relative;
+    max-width: 460px;
+    margin: 2px auto 10px;
+    padding: 10px 16px;
+    background: #fff;
+    color: #1d2433;
+    border-radius: 14px;
+    font-size: 15px;
+    line-height: 1.5;
+    box-shadow: 0 4px 14px rgba(0,0,0,.28);
+    text-align: center;
+  }
+  .say::after {            /* 指向宠物的小尖 */
+    content: '';
+    position: absolute;
+    left: 50%; top: -7px;
+    transform: translateX(-50%);
+    border: 7px solid transparent;
+    border-top: 0;
+    border-bottom-color: #fff;
+  }
+  .say small { display: block; margin-top: 4px; font-size: 11px; opacity: .5; }
+  /* 「需要确认」和「出错」在 App 里是**常驻**的，这里用底色区分出来 */
+  .say[data-tone="attention"] { background: #fff4d6; }
+  .say[data-tone="attention"]::after { border-bottom-color: #fff4d6; }
+  .say[data-tone="error"] { background: #ffe3e3; }
+  .say[data-tone="error"]::after { border-bottom-color: #ffe3e3; }
+
+  .hint { max-width: 760px; color: #5b6884; font-size: 12px; margin-top: 8px; }
+  .hint code { background: #2b3448; padding: 1px 5px; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+  <h1>🐳 胖头鱼 · 逐帧动画预览</h1>
+  <p class="sub">
+    点下面的按钮播放对应动画。列表和「几帧 / 怎么动」都是从
+    <code>pet.js</code> 的 <code>CLIPS</code> <b>实时读出来的</b>，不是手写的。
+  </p>
+
+  <div id="stage"><img id="pet" alt="胖头鱼" draggable="false" /></div>
+  <!-- 录制用：把舞台放大到素材原始分辨率（512），这样录屏抽帧是无损的。
+       平时不做这件事 —— 默认尺寸和真实窗口一致（220×240），看到的比例才是真的。 -->
+  <p><button id="recBtn" type="button">🎬 录制模式：放大到 512（素材原始分辨率）</button></p>
+
+  <!-- 台词气泡。点片段时随机抽一句 —— 模拟 App 里那个气泡。
+       ⚠️ 数据来自 `window.__DEMO_DIALOGUES`，**只有 `npm run build:demo`
+       打出来的单文件版才有**（构建时用真解析器解析 `dialogues/zh.md` 内联进去）。
+       开发版直接开 `preview.html` 看不到台词，会显示一行说明。 -->
+  <div id="say" class="say" hidden>
+    <span id="sayText"></span>
+    <small id="sayMeta"></small>
+  </div>
+
+  <div id="readout">加载中……</div>
+
+  <div class="group"><h2>状态（DSH 推来的）</h2><div class="row" id="row-states"></div></div>
+  <div class="group"><h2>空闲（待机链 6 个节点按权重抽 · 后三个是入睡过程）</h2><div class="row" id="row-idle"></div></div>
+  <div class="group"><h2>时刻 / 余额表情</h2><div class="row" id="row-misc"></div></div>
+
+  <p class="hint">
+    <b>图例</b>　<code>换图 N 种</code> = 靠不同的画做动作（要美术资源）·
+    <code>位移 上下/左右</code> = 同一张图移动位置（零素材成本）·
+    <code>静止</code> = 单帧，或者同图重复又没位移（<b>看着像有动画，其实是定格的</b>）<br />
+    帧读数来自 <code>#pet</code> 的 <code>src</code>，不是另开一套状态 ——
+    <b>你看到的就是真实渲染</b>。<br />
+    循环类片段（工作中 / 需要确认 / 睡着…）会一直播，点别的切换。<br />
+    <b>点同一个片段两下</b>可以听「等久了会催什么」—— 台词和 App 里说的一样，随机抽的。
+  </p>
+
+  <!-- ── ① 先把 pet.js 依赖的东西全部 stub 掉 ──────────────────────
+       它本来是跑在 Electron 窗口里的，直接开浏览器会缺 window.pet。 -->
+  <script>
+    const noop = () => {};
+    const unsub = () => noop;
+
+    // preload 暴露的 16 个 API，全部 no-op
+    window.pet = {
+      bridgeStatus: async () => ({ connected: false }),
+      drag: noop, dragEnd: noop,
+      getBounds: async () => ({ x: 0, y: 0, width: 220, height: 240 }),
+      reportMoment: noop, reportState: noop,
+      setHovering: noop, showBalance: noop, showMenu: noop,
+      onBalanceMood: unsub, onBridge: unsub, onFrameBounds: unsub,
+      onInfo: unsub, onSessions: unsub, onSound: unsub, onState: unsub,
+    };
+    window.petSounds = { play: noop, setEnabled: noop, armUnlock: noop };
+    window.petPat = { create: () => ({
+      onMove: () => false, leave: noop, reset: noop,
+      // ⚠️ 这几个不能少 —— pet.js 的启动自检会调它们，
+      // 缺一个就 "patter.getStrokes is not a function"，自检整段挂掉。
+      isPatting: () => false, isGrumpy: () => false, getStrokes: () => 0,
+    }) };
+  </script>
+
+  <!-- ── ② 加载真实代码。它会定义 window.petDebug（含 CLIPS / FRAME_FILES）──
+       带上 ?selftest=0 关掉启动自检。
+       ⚠️ 不能靠 location.search —— 那是**本页**的 query，影响不到 pet.js 里的判断。
+       所以 pet.js 也认一个全局标记（见那边的注释）。 ── -->
+  <script src="../state-labels.js"></script>
+  <script>window.petNoSelfTest = true</script>
+  <script src="pet.js"></script>
+
+  <!-- ── ③ 用真实 CLIPS 建按钮 ─────────────────────────────────── -->
+  <script>
+    // ⚠️ 变量名一律加 pv 前缀。
+    // pet.js 是普通 <script>（不是 module），和这段脚本**共享全局作用域** ——
+    // 它已经声明了顶层 `const CLIPS` / `FRAME_FILES` 等，我们重名会直接
+    // SyntaxError: Identifier 'CLIPS' has already been declared，整段脚本不执行。
+    const pvDebug = window.petDebug;
+    if (!pvDebug) {
+      document.getElementById('readout').textContent = '❌ pet.js 没加载成功（检查同目录）';
+      throw new Error('petDebug missing')
+    }
+    const pvClips = pvDebug.CLIPS;
+    // ⚠️ **查片段一律走 `pvClipFor`，不要直接查 `pvClips`。**
+    //    `CLIPS` 里只有"写死的"那些；`ready` / `working` 是**按需构造**的
+    //    （帧数取决于这套素材有几张），必须问 `clipFor` 才拿得到。
+    //    原来只读 `CLIPS` —— 结果预览页里**没有「工作中」和「完成庆祝」按钮**
+    //    （实测：18 个按钮里就是缺这两个）。
+    const pvClipFor = pvDebug.clipFor;
+
+    /** 给片段起个能看懂的中文名。没列的用片段名兜底。 */
+    const LABELS = {
+      idle: '待机（整链）',
+      awake: '睁眼', blink: '眨眼', slowBlink: '缓慢眨眼', blinkTwice: '连眨两下',
+      eat: '啃小鱼干', stretch: '伸懒腰',
+      wave: '挥手', greet: '双击打招呼（揉脸）', drowsy: '困倦', sleep: '睡着', startle: '惊醒',
+      patHappy: '摸头眯眼',
+      angry: '生气',
+      working: '工作中', needInput: '需要确认', blocked: '出错',
+      ready: '完成庆祝',
+      balanceOk: '余额·充足', balanceLow: '余额·偏低', balanceCritical: '余额·告急',
+    };
+
+    /**
+     * 分组。**按"什么时候会看到它"分**，不是按代码里的定义位置分 ——
+     * `drowsy` / `sleep` / `startle` 是**空闲状态内部**的几个阶段
+     * （40 秒困倦 → 50 秒睡着 → 碰一下就惊醒），所以归在「空闲」这组。
+     */
+    const GROUPS = {
+      'row-states': ['working', 'needInput', 'blocked', 'ready'],
+      'row-idle':   ['idle', 'awake', 'blink', 'slowBlink', 'blinkTwice', 'eat', 'stretch',
+                     'drowsy', 'sleep', 'startle'],
+      'row-misc':   ['greet', 'wave', 'patHappy', 'angry', 'balanceOk', 'balanceLow', 'balanceCritical'],
+    };
+
+    /**
+     * 这个片段靠什么动起来 —— 两种机制（或都没有）。
+     *
+     * · **换图**：`frames` 里是不同的图稿，靠画面本身变
+     * · **位移**：同一张图 + `offsetX/Y`，靠移动位置
+     * · **静止**：单帧、或者同图重复又没位移（看着像有动画，其实是定格的）
+     */
+    function motionOf (clip) {
+      const uniq = new Set(clip.frames).size;
+      const axes = [];
+      if (Array.isArray(clip.offsetX)) axes.push('左右');
+      if (Array.isArray(clip.offsetY)) axes.push('上下');
+      const shift = axes.length ? `位移 ${axes.join('+')}` : null;
+      const morph = uniq > 1 ? `换图 ${uniq} 种` : null;
+      if (morph && shift) return { text: `${morph} + ${shift}`, kind: 'both' };
+      if (morph) return { text: morph, kind: 'morph' };
+      if (shift) return { text: shift, kind: 'shift' };
+      return { text: '静止', kind: 'still' };
+    }
+
+    let current = null;
+
+    /**
+     * 抽一句这个片段对应的台词，显示在气泡里。
+     *
+     * **随机抽一句**（和 App 的行为一致 —— 它也是 `pick(lines)` 随机挑）。
+     * 数据是构建时用**真解析器**解析 `dialogues/zh.md` 内联进来的，
+     * 所以这里显示的就是 App 真正会说的话，不是手抄的副本。
+     *
+     * 开发版直接开 `preview.html` 时没有这份数据（只有打包版有），
+     * 会显示一行说明而不是静默留空。
+     */
+    const sayEl = document.getElementById('say');
+    const sayText = document.getElementById('sayText');
+    const sayMeta = document.getElementById('sayMeta');
+    const TONE = { needsInput: 'attention', blocked: 'error' };
+
+    function speak (clipName, again) {
+      const table = globalThis.__DEMO_DIALOGUES;
+      const map = globalThis.__DEMO_CLIP_TO_STATE || {};
+      if (!table) {
+        sayEl.hidden = false;
+        sayText.textContent = '（开发版没有台词数据）';
+        sayMeta.textContent = '跑 npm run build:demo 打出来的单文件版才有';
+        return;
+      }
+      const state = map[clipName];
+      const entry = state && table[state];
+      if (!entry) { sayEl.hidden = true; return; }     // 余额表情那些本来就没台词
+
+      // 进入这个状态时说的话 = 主台词；点第二下就抽升级档的（演示"催"）
+      let pool = entry.lines;
+      let label = '刚进入';
+      if (again && entry.escalate?.length) {
+        const lv = entry.escalate[Math.floor(Math.random() * entry.escalate.length)];
+        pool = lv.lines;
+        label = `${lv.repeat ? '循环' : '升级'} ${lv.afterMs / 1000}s`;
+      }
+      if (!pool?.length) { sayEl.hidden = true; return; }
+
+      sayEl.hidden = false;
+      sayEl.dataset.tone = TONE[state] || 'normal';
+      sayText.textContent = pool[Math.floor(Math.random() * pool.length)];
+      const total = entry.lines.length
+        + (entry.escalate || []).reduce((n, e) => n + e.lines.length, 0);
+      sayMeta.textContent = `${state} · ${label} · 共 ${total} 句`
+        + (entry.escalate?.length ? `（${entry.escalate.length} 个催促档）` : '')
+        + (again ? ' · 再点一次换一句' : ' · 再点一次听催促');
+    }
+
+    function play (name, opts) {
+      pvDebug.playClip(name);      // ← 调的是真实播放器，不是另写一套
+      // 同一个片段再点一次 = 抽升级档的台词（演示"等久了会催"）
+      const again = Boolean(opts?.again)
+      current = name;
+      for (const b of document.querySelectorAll('button[data-clip]')) {
+        b.classList.toggle('on', b.dataset.clip === name);
+      }
+      speak(name, again);
+    }
+
+    /**
+     * 建按钮。
+     *
+     * ⚠️ **必须等 `pet:clips-ready` 之后才能建。**
+     *    `boot()` 是 async 函数，`applyClips()` 在它里面 ——
+     *    这段脚本跑得比它早，那时 `CLIPS` 里还没有素材自带的片段，
+     *    `clipFor('working')` 会退回**兜底版**（帧数和动作都是错的：
+     *    月薪喵的「工作中」显示成 6 帧/位移，其实是鲸鱼娘那套）。
+     *
+     *    重复调用没关系 —— 每次先清空再建。
+     */
+    function buildButtons () {
+    for (const rowId of Object.keys(GROUPS)) document.getElementById(rowId).innerHTML = '';
+    // 录制模式开关：把 #stage 放大到 512（素材原始分辨率）
+    const recBtn = document.getElementById('recBtn');
+    if (recBtn) {
+      recBtn.onclick = () => {
+        const on = document.body.classList.toggle('rec');
+        recBtn.textContent = on
+          ? '🎬 录制模式：已放大到 512（点一下切回 220）'
+          : '🎬 录制模式：放大到 512（素材原始分辨率）';
+      };
+    }
+
+    const all = [...new Set([...Object.keys(pvClips), ...Object.values(GROUPS).flat()])];
+    for (const [rowId, wanted] of Object.entries(GROUPS)) {
+      const row = document.getElementById(rowId);
+      for (const name of wanted) {
+        const clip = pvClipFor(name);
+        if (!clip) continue;                     // 片段被删了就跳过，不报错
+        const b = document.createElement('button');
+        b.dataset.clip = name;
+        b.innerHTML = `${LABELS[name] || name}`
+          + `<small>${clip.frames.length}帧 · ${motionOf(clip).text}</small>`;
+        b.dataset.motion = motionOf(clip).kind;
+        b.onclick = () => play(name, { again: b.classList.contains('on') });
+        row.appendChild(b);
+      }
+    }
+    // 有片段没被分到组里就补到最后一行，免得新增片段在预览里看不到
+    const listed = new Set(Object.values(GROUPS).flat());
+    for (const name of all) {
+      if (listed.has(name)) continue;
+      const b = document.createElement('button');
+      b.dataset.clip = name;
+      b.innerHTML = `${LABELS[name] || name}`
+        + `<small>${pvClipFor(name).frames.length}帧 · ${motionOf(pvClipFor(name)).text}</small>`;
+      b.dataset.motion = motionOf(pvClipFor(name)).kind;
+      b.onclick = () => play(name);
+      document.getElementById('row-misc').appendChild(b);
+    }
+    }
+    // 先立刻建一次（开发版直接开 preview.html 时没有异步的 clips 要等），
+    // clips 到了再重建一次 —— 那时片段定义才是素材自带的那份。
+    buildButtons();
+    window.addEventListener('pet:clips-ready', buildButtons);
+    setTimeout(buildButtons, 600);          // 兜底：万一事件在监听之前就发过了
+
+    // ── 帧读数：直接看 #pet 的 src，所以显示的一定是真实渲染的那一帧 ──
+    const petEl = document.getElementById('pet');
+    const readout = document.getElementById('readout');
+    const fileToLogical = {};
+    for (const [logical, file] of Object.entries(pvDebug.FRAME_FILES)) fileToLogical[file] = logical;
+
+    setInterval(() => {
+        // ⚠️ **直接问 pet.js，不要从 `img.src` 里抠文件名。**
+        //    单文件演示版把图片内联成 data URI 之后，`.split('/').pop()`
+        //    抠出来是一串 base64，读数变成 `帧 ? zPDicC33HpDVX...==.webp`。
+        //    pet.js 本来就知道当前是哪个逻辑帧，问它就行。
+        const logical = pvDebug.frame || '?';
+        const file = pvDebug.FRAME_FILES[logical] || logical;
+        if (!logical || logical === '?') return;
+      const clip = current ? pvClipFor(current) : null;
+      const idx = clip ? clip.frames.indexOf(logical) : -1;
+      // 片段名标中文。
+      //
+      // ⚠️ **优先查 LABELS，不是 STATE_LABELS。**
+      //    `angry` / `patHappy` / `awake` 这些是**片段名**，不是状态名 ——
+      //    状态表里查不到，读数就会一直显示英文（实测就是这样）。
+      //    只有 `working` / `needInput` 这类"片段名恰好等于状态名"的才查得到。
+      const zh = LABELS[current] || globalThis.STATE_LABELS?.[current]
+      const motion = clip ? motionOf(clip) : null
+      readout.innerHTML =
+        `片段 <b>${zh ? zh + ' ' : ''}${current || '—'}</b>　` +
+        (motion ? `<b>${motion.text}</b>　` : '') +
+        `帧 <b>${logical}</b>　` +
+        `<span>${file}.webp${idx >= 0 ? `（第 ${idx + 1}/${clip.frames.length} 帧）` : ''}</span>`;
+    }, 80);
+
+    // 启动后她自己会跑待机链；这里只把读数标签对上
+    current = 'idle';
+  </script>
+</body>
+</html>

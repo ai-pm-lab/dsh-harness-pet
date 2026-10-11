@@ -1,0 +1,269 @@
+/* 桌宠窗口样式
+ *
+ * 关键约束：窗口背景必须完全透明，否则会看到一块黑/白方块。
+ * 页面上除了宠物图本身，不应有任何可见元素。 */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+
+  /* 桌宠不该被选中或被拖成原生图片拖影 */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+
+  /* 鼠标默认穿透到下层应用；只有图片本身接管事件 */
+  pointer-events: none;
+}
+
+#stage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+}
+
+#pet {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+
+
+  /* 图像本身是唯一可交互区域 */
+  pointer-events: auto;
+  cursor: grab;
+
+  /* 让 WebP 的透明边缘保持锐利，缩放时也不出现白边 */
+  -webkit-user-drag: none;
+  image-rendering: -webkit-optimize-contrast;
+
+  /*
+   * 庆祝时的逐帧垂直位移要有过渡，否则一帧一跳很生硬。
+   * 100ms 比最短的帧时长（140ms）还短，所以不会拖慢节奏。
+   * 只过渡 transform —— 播放帧是换 src，不受影响。
+   */
+  transition: transform 100ms ease-out;
+
+  /* 拖动时不要有过渡，否则会"追"鼠标 */
+  will-change: transform;
+}
+
+#pet.dragging {
+  cursor: grabbing;
+}
+
+
+/* ─────────────────── 摸头 ───────────────────
+ *
+ * 全部用 CSS 做，**不需要新素材** ——
+ * 我们的 21 帧里没有"眯眼/脸红"的表情，所以摸头的反馈只能靠
+ * "头顶被按下去 + 冒爱心 + 说句话"这三样。
+ */
+
+/* 鼠标在头顶来回蹭时换光标，让人知道这里可以摸 */
+#pet.petting { cursor: grab; }
+
+/* 每蹭一下把头顶按下去一点。
+ *
+ * ⚠️ **必须用独立的 `scale` 属性，不能用 `transform: scaleY()`。**
+ * pet.js 每帧都在写 `el.style.transform`（呼吸/跳跃的位移），
+ * 两边都动 transform 会互相打架 —— 下压效果被覆盖或者闪。
+ * `scale` 是独立属性，和 `transform` 叠加而不是替换，各管各的。
+ *
+ * 轴心放在脚底附近：这样看起来是"头被按住"，而不是"整只缩小"。 */
+#pet.pat-press {
+  transform-origin: 50% 88%;
+  animation: pat-press 340ms cubic-bezier(.3, .7, .4, 1);
+}
+
+@keyframes pat-press {
+  /* 原来只压 6%（0.94），配上窗口常驻屏幕角落，几乎看不出来。
+     横向略微张开 + 纵向压 11%，才像"被按住"。
+     动画时长也拉长一点，260ms 太快了。 */
+  0%   { scale: 1    1; }
+  30%  { scale: 1.05 0.89; }
+  100% { scale: 1    1; }
+}
+
+/* 爱心：从头顶飘起来再淡出 */
+/* 自检专用：启动自检要走完整条摸头链路，其中包含"爱心冒出来"这一环
+ * （popHeart 坏过一次，不验就等于没测）。
+ * 但那颗爱心是自检冒的，**不该让用户看见** —— 所以自检期间挂上 probe，
+ * 只保留 class 语义，视觉上完全隐藏。自检结束把 show 和 probe 一起摘掉。
+ *
+ * ⚠️ 用 visibility 而不是 opacity：opacity 会被 getComputedStyle 读出来，
+ *    将来若有人改成"看 opacity 判断爱心在不在"，probe 会让它永远为 0。
+ *    visibility 不影响 class 判断。 */
+#heart.probe {
+  visibility: hidden !important;
+}
+
+#heart {
+  position: absolute;
+  left: 50%;
+  top: 14%;
+  /* 原来是 20px —— 在 220px 宽的窗口里太小了，用户根本没注意到。
+     而且窗口是常驻屏幕角落的，扫一眼不一定看得见。 */
+  font-size: 30px;
+  line-height: 1;
+  color: #ff3d63;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 0) scale(0.6);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  filter: drop-shadow(0 0 6px rgba(255, 90, 122, 0.55));
+}
+
+#heart.show { animation: heart-float 1100ms ease-out; }
+
+@keyframes heart-float {
+  0%   { opacity: 0; transform: translate(-50%, 6px)   scale(0.5); }
+  25%  { opacity: 1; transform: translate(-50%, -4px)  scale(1.1); }
+  60%  { opacity: 1; transform: translate(-50%, -18px) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -34px) scale(0.85); }
+}
+
+/* 忙的时候被双击/悬停：整只轻轻弹一下。
+ *
+ * 为什么需要它：原来双击在非空闲状态**完全不响应**（有意设计，怕打断工作信息）。
+ * 但用户看到的是"双击没反应"—— **分不清"她在忙"和"功能坏了"**。
+ * 这和上面「摸太快」那条是同一个问题，处理方式也一致：**必须有点动静**。
+ *
+ * ⚠️ 用 `scale` 而**不是** `transform` —— 帧位移（applyOffset）用的是
+ *    `el.style.transform`，两者共用会打架。`scale` 是独立的属性。
+ * 时长很短（320ms）、幅度很小（6%），不会真的打断状态。 */
+#pet.nudge { animation: pet-nudge 320ms ease-out; }
+
+@keyframes pet-nudge {
+  0%   { scale: 1; }
+  30%  { scale: 1.06; }
+  65%  { scale: 0.98; }
+  100% { scale: 1; }
+}
+
+/* 尊重系统的「减少动态效果」：不做按压和飘动，但爱心还是要出现一下 */
+@media (prefers-reduced-motion: reduce) {
+  #pet.pat-press { animation: none; }
+  #pet.nudge { animation: none; }
+  #heart.show { animation: heart-fade 900ms ease-out; }
+  @keyframes heart-fade {
+    0%, 100% { opacity: 0; }
+    30%, 70% { opacity: 1; }
+  }
+}
+
+
+/* 摸太快惹她生气了：轻轻摇一下头（不接受抚摸的意思）。
+ * 冷却期间**必须有点动静** —— 全静默的话用户分不清
+ * "她在闹脾气"和"功能坏了"。 */
+/* 注：这里原来有个 `.sulking` 的左右摆动动画（pat-sulk keyframes）。
+ * 已删除 —— 作者明确说这种效果不要：摆动时**她本人的表情没变**，
+ * 看起来像"图在晃"而不是"她在生气"。
+ * 改成显示 AI 生成的生气帧（见 pet.js 的 showAngryFace）。
+ * 留这段注释是为了让"为什么这里少了个动画"有据可查。 */
+
+
+/* ─────────────── 并发会话角标 ───────────────
+ *
+ * 在跑的会话数 ≥ 2 时才出现（只有她自己在跑是常态，一直挂着是噪音）。
+ * 位置贴着她头顶右上方 —— 呆毛在正中间，角标偏右不会挡住。
+ */
+#badge {
+  position: absolute;
+  left: 62%;
+  top: 9%;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background: #2f6fd0;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: center;
+  opacity: 0;
+  transform: scale(0.5);
+  pointer-events: none;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.28);
+  transition: opacity .18s ease, transform .18s ease;
+  will-change: opacity, transform;
+}
+
+#badge.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* 数字变化时弹一下 —— 悄悄变了用户看不出来 */
+#badge.show.pop {
+  animation: badge-pop 420ms cubic-bezier(.3, 1.5, .5, 1);
+}
+
+@keyframes badge-pop {
+  0%   { transform: scale(0.6); }
+  45%  { transform: scale(1.28); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #badge { transition: none; }
+  #badge.show.pop { animation: none; }
+}
+
+/* ─────────────────────────── 缩放手柄 ─────────────────────────── */
+
+/**
+ * 右下角那个小三角。
+ *
+ * ⚠️ **位置靠 JS 算、不写死在 CSS 里。**
+ *    因为角色在不同动作里轮廓差别很大（睡着是坐着的、庆祝帧是跳起来的），
+ *    而手柄要一直待在**站立帧（awake）的右下角** —— 那个位置只能由
+ *    manifest 里 awake 的 bounds 算出来，CSS 拿不到。
+ *    约定：JS 每帧写 `left` / `top`（px），这里只负责长相和动效。
+ *
+ * ⚠️ 平时完全透明（`opacity: 0`）且 **`pointer-events: none`** ——
+ *    不然一个看不见的元素会一直吃掉鼠标事件。
+ *    只有加了 `.show` 才同时变得可见、可点。
+ */
+#resize-handle {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 140ms ease-out;
+  cursor: nwse-resize;                    /* 右下角的标准缩放光标 */
+  z-index: 5;                             /* 压在心形和角标上面 */
+
+  /**
+   * 两条斜线画成小三角。
+   * ⚠️ 用 `background-image` 的两条 linear-gradient，**不要用 border 三角** ——
+   *    border 三角在深色和浅色桌面上都不好调；这里给它加一圈半透明底
+   *    和描边，任何壁纸上都看得见。
+   */
+  background:
+    linear-gradient(135deg, transparent 46%, rgba(255,255,255,0.92) 46%, rgba(255,255,255,0.92) 54%, transparent 54%),
+    linear-gradient(135deg, transparent 68%, rgba(255,255,255,0.92) 68%, rgba(255,255,255,0.92) 76%, transparent 76%),
+    rgba(30, 40, 70, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#resize-handle.show { opacity: 1; pointer-events: auto; }
+#resize-handle:hover { background-color: rgba(30, 40, 70, 0.62); }
+#resize-handle.dragging { transition: none; }

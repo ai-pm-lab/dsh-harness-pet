@@ -1,0 +1,446 @@
+{
+  "name": "月薪喵",
+  "order": 4,
+  "description": "月薪喵：57 张（Petdex 原图 + 用户给的成品图 + 用户给的 GIF + 部件改造）",
+  "frameSize": 512,
+  "frames": [
+    {
+      "logical": "awake",
+      "file": "idle_pillow_awake.webp"
+    },
+    {
+      "logical": "blink",
+      "file": "idle_pillow_blink.webp"
+    },
+    {
+      "logical": "patHappy",
+      "file": "idle_pillow_pat.webp"
+    },
+    {
+      "logical": "eat",
+      "file": "idle_pillow_eat.webp"
+    },
+    {
+      "logical": "stretch",
+      "file": "idle_pillow_stretch.webp"
+    },
+    {
+      "logical": "angry",
+      "file": "idle_pillow_angry.webp"
+    },
+    {
+      "logical": "angryBlock",
+      "file": "idle_pillow_angry_block.webp"
+    },
+    {
+      "logical": "drowsy",
+      "file": "idle_pillow_drowsy.webp"
+    },
+    {
+      "logical": "sleep",
+      "file": "idle_pillow_sleep.webp"
+    },
+    {
+      "logical": "startle",
+      "file": "idle_pillow_startle.webp"
+    },
+    {
+      "logical": "startle2",
+      "file": "idle_pillow_startle_2.webp"
+    },
+    {
+      "logical": "startle3",
+      "file": "idle_pillow_startle_3.webp"
+    },
+    {
+      "logical": "startle4",
+      "file": "idle_pillow_startle_4.webp"
+    },
+    {
+      "logical": "startle5",
+      "file": "idle_pillow_startle_5.webp"
+    },
+    {
+      "logical": "startle6",
+      "file": "idle_pillow_startle_6.webp"
+    },
+    {
+      "logical": "wave1",
+      "file": "idle_pillow_wave_1.webp"
+    },
+    {
+      "logical": "wave2",
+      "file": "idle_pillow_wave_2.webp"
+    },
+    {
+      "logical": "wave3",
+      "file": "idle_pillow_wave_3.webp"
+    },
+    {
+      "logical": "miaoWork1",
+      "file": "miao_work_01.webp"
+    },
+    {
+      "logical": "miaoWork2",
+      "file": "miao_work_02.webp"
+    },
+    {
+      "logical": "miaoWork3",
+      "file": "miao_work_03.webp"
+    },
+    {
+      "logical": "miaoWork4",
+      "file": "miao_work_04.webp"
+    },
+    {
+      "logical": "needInput",
+      "file": "need_input.webp"
+    },
+    {
+      "logical": "blocked",
+      "file": "blocked.webp"
+    },
+    {
+      "logical": "ready1",
+      "file": "ready_1.webp"
+    },
+    {
+      "logical": "ready2",
+      "file": "ready_2.webp"
+    },
+    {
+      "logical": "ready3",
+      "file": "ready_3.webp"
+    },
+    {
+      "logical": "ready4",
+      "file": "ready_4.webp"
+    },
+    {
+      "logical": "ready5",
+      "file": "ready_5.webp"
+    },
+    {
+      "logical": "greet1",
+      "file": "greet_01.webp"
+    },
+    {
+      "logical": "greet2",
+      "file": "greet_02.webp"
+    },
+    {
+      "logical": "greet3",
+      "file": "greet_03.webp"
+    },
+    {
+      "logical": "greet4",
+      "file": "greet_04.webp"
+    },
+    {
+      "logical": "greet5",
+      "file": "greet_05.webp"
+    },
+    {
+      "logical": "greet6",
+      "file": "greet_06.webp"
+    },
+    {
+      "logical": "greet7",
+      "file": "greet_07.webp"
+    },
+    {
+      "logical": "greet8",
+      "file": "greet_08.webp"
+    },
+    {
+      "logical": "greet9",
+      "file": "greet_09.webp"
+    },
+    {
+      "logical": "greet10",
+      "file": "greet_10.webp"
+    },
+    {
+      "logical": "greet11",
+      "file": "greet_11.webp"
+    },
+    {
+      "logical": "greet12",
+      "file": "greet_12.webp"
+    },
+    {
+      "logical": "greet13",
+      "file": "greet_13.webp"
+    },
+    {
+      "logical": "greet14",
+      "file": "greet_14.webp"
+    },
+    {
+      "logical": "greet15",
+      "file": "greet_15.webp"
+    },
+    {
+      "logical": "greet16",
+      "file": "greet_16.webp"
+    },
+    {
+      "logical": "greet17",
+      "file": "greet_17.webp"
+    },
+    {
+      "logical": "greet18",
+      "file": "greet_18.webp"
+    },
+    {
+      "logical": "greet19",
+      "file": "greet_19.webp"
+    },
+    {
+      "logical": "greet20",
+      "file": "greet_20.webp"
+    },
+    {
+      "logical": "greet21",
+      "file": "greet_21.webp"
+    },
+    {
+      "logical": "greet22",
+      "file": "greet_22.webp"
+    },
+    {
+      "logical": "greet23",
+      "file": "greet_23.webp"
+    },
+    {
+      "logical": "greet24",
+      "file": "greet_24.webp"
+    },
+    {
+      "logical": "greet25",
+      "file": "greet_25.webp"
+    },
+    {
+      "logical": "greet26",
+      "file": "greet_26.webp"
+    },
+    {
+      "logical": "greet27",
+      "file": "greet_27.webp"
+    },
+    {
+      "logical": "greet28",
+      "file": "greet_28.webp"
+    }
+  ],
+  "generatedAt": "2026-10-04",
+  "clips": {
+    "$comment": "这套宠物的多帧动画。主进程读出来推给渲染层，覆盖共用的 CLIPS。帧号用顺序号 001~057（见 frames/）。全部 loop:false —— 由状态机决定什么时候结束，片段自己循环会永远回不到 idle。",
+    "ready": {
+      "note": "完成庆祝：**040→041→042→043→044 顺序播放，循环 5 次**（用户指定）。⚠️ **没有 offsetY** —— 用户明确不要上下位移，纯粹靠换图演。",
+      "frames": [
+        "ready1",
+        "ready2",
+        "ready3",
+        "ready4",
+        "ready5",
+        "ready1",
+        "ready2",
+        "ready3",
+        "ready4",
+        "ready5",
+        "ready1",
+        "ready2",
+        "ready3",
+        "ready4",
+        "ready5",
+        "ready1",
+        "ready2",
+        "ready3",
+        "ready4",
+        "ready5",
+        "ready1",
+        "ready2",
+        "ready3",
+        "ready4",
+        "ready5"
+      ],
+      "durations": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "loop": false,
+      "holdLast": true
+    },
+    "wave": {
+      "note": "抬起来再放下去（用户给的顺序是 1→2→3）",
+      "frames": [
+        "wave1",
+        "wave2",
+        "wave3",
+        "wave2",
+        "wave1"
+      ],
+      "durations": [
+        200,
+        220,
+        320,
+        220,
+        200
+      ],
+      "loop": false,
+      "holdLast": true
+    },
+    "startle": {
+      "note": "六帧连贯的小动作，一遍就够",
+      "frames": [
+        "startle",
+        "startle2",
+        "startle3",
+        "startle4",
+        "startle5",
+        "startle6"
+      ],
+      "durations": [
+        110,
+        100,
+        100,
+        110,
+        140,
+        260
+      ],
+      "loop": false,
+      "holdLast": true
+    },
+    "working": {
+      "note": "工作中：手臂上下摆动打字，**每 4 趟眨一次眼**（用户要求）。前 16 帧 = [1,2,3,2] 重复 4 次（≈2.5 秒），第 17 帧是闭眼帧（≈150 毫秒）。整段循环，所以大约每 2.7 秒眨一次。",
+      "frames": [
+        "miaoWork1",
+        "miaoWork2",
+        "miaoWork3",
+        "miaoWork2",
+        "miaoWork1",
+        "miaoWork2",
+        "miaoWork3",
+        "miaoWork2",
+        "miaoWork1",
+        "miaoWork2",
+        "miaoWork3",
+        "miaoWork2",
+        "miaoWork1",
+        "miaoWork2",
+        "miaoWork3",
+        "miaoWork2",
+        "miaoWork4"
+      ],
+      "durations": [
+        170,
+        150,
+        150,
+        150,
+        170,
+        150,
+        150,
+        150,
+        170,
+        150,
+        150,
+        150,
+        170,
+        150,
+        150,
+        150,
+        150
+      ],
+      "loop": true
+    },
+    "greet": {
+      "note": "**双击桌宠时播的动作**（用户给的 GIF，28 帧）。时长用它自带的 40ms/帧 —— 原来双击是播 wave（5 帧），现在换成这一整段。",
+      "frames": [
+        "greet1",
+        "greet2",
+        "greet3",
+        "greet4",
+        "greet5",
+        "greet6",
+        "greet7",
+        "greet8",
+        "greet9",
+        "greet10",
+        "greet11",
+        "greet12",
+        "greet13",
+        "greet14",
+        "greet15",
+        "greet16",
+        "greet17",
+        "greet18",
+        "greet19",
+        "greet20",
+        "greet21",
+        "greet22",
+        "greet23",
+        "greet24",
+        "greet25",
+        "greet26",
+        "greet27",
+        "greet28"
+      ],
+      "durations": [
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40
+      ],
+      "loop": false,
+      "holdLast": true
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "$comment": "这套宠物的风格定义。tools/gen-frames.py 生成时读它拼提示词。 ⚠️ reference 可以是数组；referenceDirs 里的图会全部当参考 —— 用户给的 petdex 链接里别人做的 sprite sheet（Petdex #2981）切出来的帧放在 refs/ 里。",
+  "id": "yuexin-miao",
+  "name": "月薪喵",
+  "styleLock": "极简扁平贴纸风格，纯色填充，没有渐变、没有阴影、没有高光。粗细不均的深棕色描边勾边，像手绘贴纸。保持角色一致：白色圆润身体（像小幽灵/披风，底部有小尖角）、两只巨大的米棕色耳朵从头顶两侧向外张开（边缘不规则、带深棕色短毛笔触）、两个竖着的深蓝色椭圆眼睛（无瞳孔无高光）、小小的棕色 ω 形嘴巴、左侧一条粗的米棕色尾巴带三道深棕色条纹。不要画四肢、不要画手、不要画脚。画面干净，无文字，无水印。",
+  "background": "背景为纯绿色 #00FF00 平面（便于后期抠图），不要阴影、不要渐变、不要地面、不要边框、不要任何背景元素。",
+  "palette": {
+    "line": "#5a3a20",
+    "fur": "#ffffff",
+    "ear": "#cbb094",
+    "eye": "#37509c",
+    "mouth": "#7a4526"
+  },
+  "reference": [
+    "pet-art/yuexin-miao/_reference.png"
+  ],
+  "referenceDirs": [
+    "pet-art/yuexin-miao/refs"
+  ]
+}

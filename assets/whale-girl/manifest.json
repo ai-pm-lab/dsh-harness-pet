@@ -1,0 +1,901 @@
+{
+  "name": "鲸鱼娘",
+  "order": 3,
+  "description": "Q 版鲸鱼娘（原始素材，CC BY 4.0）",
+  "frameSize": 512,
+  "frames": [
+    {
+      "logical": "awake",
+      "file": "idle_pillow_awake.webp"
+    },
+    {
+      "logical": "patHappy",
+      "file": "idle_pillow_pat.webp"
+    },
+    {
+      "logical": "eat",
+      "file": "idle_pillow_eat.webp"
+    },
+    {
+      "logical": "stretch",
+      "file": "idle_pillow_stretch.webp"
+    },
+    {
+      "logical": "angry",
+      "file": "idle_pillow_angry.webp"
+    },
+    {
+      "logical": "angryBlock",
+      "file": "idle_pillow_angry_block.webp"
+    },
+    {
+      "logical": "blink",
+      "file": "idle_pillow_blink.webp"
+    },
+    {
+      "logical": "drowsy",
+      "file": "idle_pillow_drowsy.webp"
+    },
+    {
+      "logical": "sleep",
+      "file": "idle_pillow_sleep.webp"
+    },
+    {
+      "logical": "startle",
+      "file": "idle_pillow_startle.webp"
+    },
+    {
+      "logical": "wave1",
+      "file": "idle_pillow_wave_1.webp"
+    },
+    {
+      "logical": "wave2",
+      "file": "idle_pillow_wave_2.webp"
+    },
+    {
+      "logical": "work0",
+      "file": "working_0.webp"
+    },
+    {
+      "logical": "work1",
+      "file": "working_0_1.webp"
+    },
+    {
+      "logical": "work2",
+      "file": "working_1.webp"
+    },
+    {
+      "logical": "work3",
+      "file": "working_1_2.webp"
+    },
+    {
+      "logical": "work4",
+      "file": "working_2.webp"
+    },
+    {
+      "logical": "work5",
+      "file": "working_2_3.webp"
+    },
+    {
+      "logical": "work6",
+      "file": "working_3.webp"
+    },
+    {
+      "logical": "needInput",
+      "file": "need_input.webp"
+    },
+    {
+      "logical": "blocked",
+      "file": "blocked.webp"
+    },
+    {
+      "logical": "ready0",
+      "file": "ready_0.webp"
+    },
+    {
+      "logical": "ready1",
+      "file": "ready_1.webp"
+    },
+    {
+      "logical": "ready2",
+      "file": "ready_2.webp"
+    },
+    {
+      "logical": "ready3",
+      "file": "ready_3.webp"
+    },
+    {
+      "logical": "ready4",
+      "file": "ready_4.webp"
+    }
+  ],
+  "version": 1,
+  "canvasSize": 512,
+  "workingAnchor": {
+    "centerX": 275,
+    "bottom": 431,
+    "height": 374
+  },
+  "readyAnchor": {
+    "centerX": 262
+  },
+  "animations": {
+    "idle": {
+      "frames": [
+        "idle_pillow_awake",
+        "idle_pillow_blink",
+        "idle_pillow_awake",
+        "idle_pillow_blink"
+      ],
+      "durationsMs": [
+        2700,
+        140,
+        1800,
+        120
+      ]
+    },
+    "wave": {
+      "assets": [
+        "idle_pillow_wave_1",
+        "idle_pillow_wave_2"
+      ],
+      "frames": [
+        "idle_pillow_awake",
+        "idle_pillow_wave_1",
+        "idle_pillow_wave_2",
+        "idle_pillow_wave_1",
+        "idle_pillow_awake"
+      ],
+      "durationsMs": [
+        80,
+        130,
+        180,
+        120,
+        100
+      ]
+    },
+    "working": {
+      "delayMs": 220,
+      "frames": [
+        "working_0",
+        "working_0_1",
+        "working_1",
+        "working_1_2",
+        "working_2",
+        "working_2_3",
+        "working_3",
+        "working_2_3",
+        "working_2",
+        "working_1_2",
+        "working_1",
+        "working_0_1"
+      ]
+    },
+    "ready": {
+      "delayMs": 160,
+      "frames": [
+        "ready_0",
+        "ready_1",
+        "ready",
+        "ready_3",
+        "ready_4"
+      ]
+    }
+  },
+  "assets": {
+    "idle_pillow_awake": {
+      "source": "../idle_pillow_awake.png",
+      "sourceSha256": "e50b400543ab91e8de2743374085524a4e84782d895c920fcd6ad3c3ebd0472b",
+      "outputSha256": "3f9ea78bdfa03e02ae9a3f3e9717a9ab8e8bf26f1b2bc3c94c415c7c1d4310d8",
+      "bytes": 33714,
+      "quality": 82,
+      "backgroundRgb": [
+        252,
+        251,
+        250
+      ],
+      "removedPixels": 1090795,
+      "offset": {
+        "x": 0,
+        "y": 0
+      },
+      "scale": null,
+      "bounds": {
+        "left": 93,
+        "top": 21,
+        "right": 442,
+        "bottom": 457,
+        "width": 350,
+        "height": 437,
+        "centerX": 267.5
+      }
+    },
+    "idle_pillow_blink": {
+      "source": "../idle_pillow_blink.png",
+      "sourceSha256": "465ceed23bdbe96faa1ca3647988a55a2430fbd6437762e188dd05bb439605d8",
+      "outputSha256": "028478b90ee58b405bc576738ca1848a69ec8e1d9f2fb9a9e9ed8938919d48c2",
+      "bytes": 32904,
+      "quality": 82,
+      "backgroundRgb": [
+        251,
+        250,
+        250
+      ],
+      "removedPixels": 1092261,
+      "offset": {
+        "x": 0,
+        "y": 0
+      },
+      "scale": null,
+      "bounds": {
+        "left": 93,
+        "top": 21,
+        "right": 442,
+        "bottom": 457,
+        "width": 350,
+        "height": 437,
+        "centerX": 267.5
+      }
+    },
+    "idle_pillow_drowsy": {
+      "source": "../idle_pillow_drowsy.png",
+      "sourceSha256": "2cb995ceb39b6fad5076a4473b241072f31080e3274583c2c88e52bc3f19d8ea",
+      "outputSha256": "b6316782a69f24fbfd13b4059cbff9df693014ccd5a540c8b38fb80e89f361be",
+      "bytes": 32952,
+      "quality": 82,
+      "backgroundRgb": [
+        250,
+        248,
+        248
+      ],
+      "removedPixels": 1084150,
+      "offset": {
+        "x": 0,
+        "y": 0
+      },
+      "scale": null,
+      "bounds": {
+        "left": 92,
+        "top": 23,
+        "right": 443,
+        "bottom": 458,
+        "width": 352,
+        "height": 436,
+        "centerX": 267.5
+      }
+    },
+    "idle_pillow_sleep": {
+      "source": "../idle_pillow_sleep.png",
+      "sourceSha256": "d126e63c62ccd0df9a6f6521564a549d2f28b92518e24a0ef8b81741fe9ac979",
+      "outputSha256": "b3295097d9f5341689a7f821d883152c97843abf9391e34c36f6e51af2b58f89",
+      "bytes": 34276,
+      "quality": 82,
+      "backgroundRgb": [
+        253,
+        253,
+        253
+      ],
+      "removedPixels": 1042992,
+      "offset": {
+        "x": 0,
+        "y": 0
+      },
+      "scale": null,
+      "bounds": {
+        "left": 90,
+        "top": 40,
+        "right": 469,
+        "bottom": 474,
+        "width": 380,
+        "height": 435,
+        "centerX": 279.5
+      }
+    },
+    "idle_pillow_startle": {
+      "source": "../idle_pillow_startle.png",
+      "sourceSha256": "d552630cdc7d272ac3b9e2bfaf73167daca1fce9b78d099e494997c9df769dfc",
+      "outputSha256": "91ff1e63d6cd68b917a8c560cda1099e0bf6bcc49d58de0e8d8831314f1f9d16",
+      "bytes": 34960,
+      "quality": 82,
+      "backgroundRgb": [
+        254,
+        254,
+        254
+      ],
+      "removedPixels": 1068475,
+      "offset": {
+        "x": 0,
+        "y": 0
+      },
+      "scale": null,
+      "bounds": {
+        "left": 90,
+        "top": 4,
+        "right": 446,
+        "bottom": 461,
+        "width": 357,
+        "height": 458,
+        "centerX": 268.0
+      }
+    },
+    "idle_pillow_wave_1": {
+      "source": "../idle_pillow_wave.png",
+      "sourceSha256": "d91b99a990617e77f5c2a121cbd07610a0dbdd36918923bb4be2006a165a8164",
+      "outputSha256": "3e5eb672c723a171b485979e33b722d81ba7abccd553382d2169b40f667ea5eb",
+      "bytes": 27122,
+      "quality": 60,
+      "backgroundRgb": [
+        253,
+        253,
+        253
+      ],
+      "removedPixels": 503412,
+      "offset": {
+        "x": -14,
+        "y": 0
+      },
+      "scale": 0.92,
+      "bounds": {
+        "left": 89,
+        "top": 21,
+        "right": 445,
+        "bottom": 457,
+        "width": 357,
+        "height": 437,
+        "centerX": 267.0
+      }
+    },
+    "idle_pillow_wave_2": {
+      "source": "../idle_pillow_wave.png",
+      "sourceSha256": "d91b99a990617e77f5c2a121cbd07610a0dbdd36918923bb4be2006a165a8164",
+      "outputSha256": "21a6859cb891c4238db54757185f1f0b0c4e70696e9cd8095917dfe1eaa90ba9",
+      "bytes": 27984,
+      "quality": 60,
+      "backgroundRgb": [
+        254,
+        253,
+        253
+      ],
+      "removedPixels": 495081,
+      "offset": {
+        "x": 29,
+        "y": 0
+      },
+      "scale": 0.92,
+      "bounds": {
+        "left": 90,
+        "top": 21,
+        "right": 444,
+        "bottom": 457,
+        "width": 355,
+        "height": 437,
+        "centerX": 267.0
+      }
+    },
+    "working_0": {
+      "source": "../working_0.png",
+      "sourceSha256": "71090a5874f4695ffa57f1351e633ebdc687f2407aa76c5f553cc08960264986",
+      "outputSha256": "122e53fb5e9804d5d76e4409904dbccdbea85c03a85be83ef1d808963a90bd74",
+      "bytes": 30772,
+      "quality": 79,
+      "backgroundRgb": [
+        234,
+        231,
+        231
+      ],
+      "removedPixels": 1119319,
+      "offset": {
+        "x": -4,
+        "y": 3
+      },
+      "scale": 0.9920424403183024,
+      "bounds": {
+        "left": 84,
+        "top": 58,
+        "right": 464,
+        "bottom": 431,
+        "width": 381,
+        "height": 374,
+        "centerX": 274.0
+      }
+    },
+    "working_0_1": {
+      "source": "../working_0_1.png",
+      "sourceSha256": "5b03c38575c68cd952c600ae011107905b33fee4b64b67649ed8b20204274e1c",
+      "outputSha256": "7bd15a9009f3c9b117f5ff30f60f70cbb8a4cfe2d7ccc1e1fc6258e210b5174f",
+      "bytes": 30346,
+      "quality": 79,
+      "backgroundRgb": [
+        230,
+        227,
+        228
+      ],
+      "removedPixels": 1125565,
+      "offset": {
+        "x": 2,
+        "y": 3
+      },
+      "scale": 0.9868073878627969,
+      "bounds": {
+        "left": 87,
+        "top": 58,
+        "right": 462,
+        "bottom": 431,
+        "width": 376,
+        "height": 374,
+        "centerX": 274.5
+      }
+    },
+    "working_1": {
+      "source": "../working_1.png",
+      "sourceSha256": "04530fc242c37a83254548d274c4a15f36256e503fbdca159bd6e153c2542ea2",
+      "outputSha256": "27f24df68af206e2e5be24bdf0b9b612394a03a55c23eb693b9be7b1ae32d6c2",
+      "bytes": 29964,
+      "quality": 79,
+      "backgroundRgb": [
+        233,
+        231,
+        230
+      ],
+      "removedPixels": 1138373,
+      "offset": {
+        "x": 3,
+        "y": 0
+      },
+      "scale": 1.002680965147453,
+      "bounds": {
+        "left": 94,
+        "top": 58,
+        "right": 455,
+        "bottom": 431,
+        "width": 362,
+        "height": 374,
+        "centerX": 274.5
+      }
+    },
+    "working_1_2": {
+      "source": "../working_1_2.png",
+      "sourceSha256": "03f9d15764d90b1f84cfd3d138e51de54e400fc7f905507268c3c36d1106ec8d",
+      "outputSha256": "059ca8a53798de9f5838d84b2b8216818bd482a5d94f7af39a65415aaa6f01d3",
+      "bytes": 30824,
+      "quality": 79,
+      "backgroundRgb": [
+        230,
+        227,
+        227
+      ],
+      "removedPixels": 1132057,
+      "offset": {
+        "x": 0,
+        "y": -3
+      },
+      "scale": 1.0080862533692723,
+      "bounds": {
+        "left": 88,
+        "top": 58,
+        "right": 461,
+        "bottom": 431,
+        "width": 374,
+        "height": 374,
+        "centerX": 274.5
+      }
+    },
+    "working_2": {
+      "source": "../working_2.png",
+      "sourceSha256": "43909500feda2c93c1a1370784d106646d55fa86220ffb79840625c8b41e8846",
+      "outputSha256": "a32d534063a0234c454ea85540b3ef2ad0335385a8c30b747dafaf4a22793596",
+      "bytes": 31048,
+      "quality": 79,
+      "backgroundRgb": [
+        231,
+        228,
+        229
+      ],
+      "removedPixels": 1130458,
+      "offset": {
+        "x": -3,
+        "y": -5
+      },
+      "scale": 1.016304347826087,
+      "bounds": {
+        "left": 85,
+        "top": 58,
+        "right": 464,
+        "bottom": 431,
+        "width": 380,
+        "height": 374,
+        "centerX": 274.5
+      }
+    },
+    "working_2_3": {
+      "source": "../working_2_3.png",
+      "sourceSha256": "6020df958aadc3ea0609b9d8565a1a97948950822bc00af1ad069f38f3afec33",
+      "outputSha256": "1e05c29c35923f4b5a3abcaf22a4dcfa519d480be69db8e962d675ba43b45cfb",
+      "bytes": 29844,
+      "quality": 79,
+      "backgroundRgb": [
+        229,
+        226,
+        226
+      ],
+      "removedPixels": 1124218,
+      "offset": {
+        "x": -3,
+        "y": -5
+      },
+      "scale": 1.0,
+      "bounds": {
+        "left": 81,
+        "top": 58,
+        "right": 468,
+        "bottom": 431,
+        "width": 388,
+        "height": 374,
+        "centerX": 274.5
+      }
+    },
+    "working_3": {
+      "source": "../working_3.png",
+      "sourceSha256": "b3d7c5044a8974bfd2b0079c8a8552501bee57174e8b9ee4b8a990042daba1e7",
+      "outputSha256": "a924a9a731766f2579e017625b2ce20676b162cf657cf6177ff940d1cb67fa40",
+      "bytes": 30976,
+      "quality": 79,
+      "backgroundRgb": [
+        231,
+        228,
+        227
+      ],
+      "removedPixels": 1123703,
+      "offset": {
+        "x": -1,
+        "y": 2
+      },
+      "scale": 0.9946808510638298,
+      "bounds": {
+        "left": 85,
+        "top": 58,
+        "right": 464,
+        "bottom": 431,
+        "width": 380,
+        "height": 374,
+        "centerX": 274.5
+      }
+    },
+    "need_input": {
+      "source": "../need_input.png",
+      "sourceSha256": "2b229eed1924da35fa323027faebe045f4531814649d47fa2400a334d526b570",
+      "outputSha256": "6b94073bfbcd4146f55becae4ba7c06c32681a93dd6dacb5c9c5da3d9b19202e",
+      "bytes": 27488,
+      "quality": 79,
+      "backgroundRgb": [
+        233,
+        231,
+        231
+      ],
+      "removedPixels": 1255141,
+      "offset": {
+        "x": 0,
+        "y": 0
+      },
+      "scale": null,
+      "bounds": {
+        "left": 126,
+        "top": 17,
+        "right": 374,
+        "bottom": 449,
+        "width": 249,
+        "height": 433,
+        "centerX": 250.0
+      }
+    },
+    "ready_0": {
+      "source": "../ready_0.png",
+      "sourceSha256": "9acb8a34b39abdb5e982ce683d58b36ea194f2b9544a4e43094830af94d1ba3e",
+      "outputSha256": "13a7804b2b6f8ee7944c819a6130b06ff6e529b204199910c8cf297c1db96c16",
+      "bytes": 24370,
+      "quality": 79,
+      "backgroundRgb": [
+        234,
+        232,
+        232
+      ],
+      "removedPixels": 1218089,
+      "offset": {
+        "x": -3,
+        "y": 0
+      },
+      "scale": null,
+      "bounds": {
+        "left": 126,
+        "top": 79,
+        "right": 397,
+        "bottom": 455,
+        "width": 272,
+        "height": 377,
+        "centerX": 261.5
+      }
+    },
+    "ready_1": {
+      "source": "../ready_1.png",
+      "sourceSha256": "5782b607df4c8a89b08a35db105ca4dbfeb6ce47b1a25e435a0795434be17241",
+      "outputSha256": "794afb7e882209138f8820ccd3111eb8c562150a6536aee0f14fdf560edea712",
+      "bytes": 23270,
+      "quality": 79,
+      "backgroundRgb": [
+        232,
+        230,
+        230
+      ],
+      "removedPixels": 1246253,
+      "offset": {
+        "x": 4,
+        "y": 0
+      },
+      "scale": null,
+      "bounds": {
+        "left": 137,
+        "top": 57,
+        "right": 386,
+        "bottom": 410,
+        "width": 250,
+        "height": 354,
+        "centerX": 261.5
+      }
+    },
+    "ready": {
+      "source": "../ready.png",
+      "sourceSha256": "44d440cc5f7834282a804fb28fc07909c068154103536d5923c0ae3ca714b3fb",
+      "outputSha256": "e52907505dea38ebf7fb60b27d7fd18f2ff883cbe9ab4eb939217d6a065a5ac5",
+      "bytes": 24964,
+      "quality": 79,
+      "backgroundRgb": [
+        234,
+        232,
+        232
+      ],
+      "removedPixels": 1206646,
+      "offset": {
+        "x": 4,
+        "y": 0
+      },
+      "scale": null,
+      "bounds": {
+        "left": 130,
+        "top": 53,
+        "right": 392,
+        "bottom": 424,
+        "width": 263,
+        "height": 372,
+        "centerX": 261.0
+      }
+    },
+    "ready_3": {
+      "source": "../ready_3.png",
+      "sourceSha256": "e3ad81fcc6e1a99c3be0ee7c32ba7543ecab6ad35add8922327c23e9b52fdecb",
+      "outputSha256": "bd429929ea2305667aae185cc5c3c78f089d8ac94c7c7a111d8960e4479325a6",
+      "bytes": 28588,
+      "quality": 79,
+      "backgroundRgb": [
+        233,
+        231,
+        231
+      ],
+      "removedPixels": 1203742,
+      "offset": {
+        "x": 0,
+        "y": 0
+      },
+      "scale": null,
+      "bounds": {
+        "left": 128,
+        "top": 38,
+        "right": 395,
+        "bottom": 458,
+        "width": 268,
+        "height": 421,
+        "centerX": 261.5
+      }
+    },
+    "ready_4": {
+      "source": "../ready_4.png",
+      "sourceSha256": "fbfb3f95d193f9b3a206b9efeab0735c62fce8e23634d2dc31b2b746ed2c5be8",
+      "outputSha256": "8eeceaa679ff787b44e722f94d57bae7ccb92ae2b0b06240ae80435a388c9b2d",
+      "bytes": 25378,
+      "quality": 79,
+      "backgroundRgb": [
+        231,
+        229,
+        230
+      ],
+      "removedPixels": 1231342,
+      "offset": {
+        "x": -4,
+        "y": 0
+      },
+      "scale": null,
+      "bounds": {
+        "left": 138,
+        "top": 58,
+        "right": 385,
+        "bottom": 454,
+        "width": 248,
+        "height": 397,
+        "centerX": 261.5
+      }
+    },
+    "blocked": {
+      "source": "../blocked.png",
+      "sourceSha256": "6231dd50e02cef64fd9791d62ee81d4a12a96ac048ea44e9909f430b41579b91",
+      "outputSha256": "f489f5e1aac98fd75bf5297ff13d06934ba712de0c6cb7f0a0c600b39773bcb7",
+      "bytes": 25760,
+      "quality": 79,
+      "backgroundRgb": [
+        237,
+        234,
+        234
+      ],
+      "removedPixels": 1241234,
+      "offset": {
+        "x": 0,
+        "y": 0
+      },
+      "scale": null,
+      "bounds": {
+        "left": 132,
+        "top": 73,
+        "right": 420,
+        "bottom": 448,
+        "width": 289,
+        "height": 376,
+        "centerX": 276.0
+      }
+    },
+    "launcher": {
+      "source": "../reference.png",
+      "sourceSha256": "8354beda160a90797968aa6a99c71e0f09f8e8e0ba7fab3b51a23764ae28067c",
+      "outputSha256": "68f04fcdb1521911cd512ebd7fe51e0cfc39daecf9111da45d7ce6661a2f4e94",
+      "bytes": 8370,
+      "quality": 79,
+      "backgroundRgb": [
+        235,
+        235,
+        235
+      ],
+      "removedPixels": 27085,
+      "offset": {
+        "x": 0,
+        "y": 0
+      },
+      "scale": null,
+      "bounds": {
+        "left": 165,
+        "top": 144,
+        "right": 345,
+        "bottom": 367,
+        "width": 181,
+        "height": 224,
+        "centerX": 255.0
+      }
+    },
+    "idle_pillow_pat": {
+      "source": "../idle_pillow_pat.png",
+      "sourceSha256": "b569258b00f796b8cdc4311f9bebdf75ae75bb80942d11e066da5aa98a974bbe",
+      "outputSha256": "87d3a7668ef58e14e9c28c28f761dc30dbeb1a1c416b18aaf94cf263e8d285bc",
+      "bytes": 29964,
+      "quality": 82,
+      "backgroundRgb": null,
+      "removedPixels": null,
+      "pipeline": "gen-frames.py（AI 生成 → cutout 抠图 → despill → 归一化）",
+      "offset": {
+        "x": 0,
+        "y": 0
+      },
+      "scale": null,
+      "bounds": {
+        "left": 80,
+        "top": 38,
+        "right": 430,
+        "bottom": 472,
+        "width": 351,
+        "height": 435,
+        "centerX": 255.0
+      }
+    },
+    "idle_pillow_eat": {
+      "source": "../idle_pillow_eat.png",
+      "sourceSha256": "25c5f700dadf8b414562c792a89c3a9cc16b947e33eed78cea4346a8440112d8",
+      "outputSha256": "008963002e2581eb863d3da0f9c4bfe0ee497814f36768b51d2b1184557b7d8b",
+      "bytes": 31246,
+      "quality": 82,
+      "backgroundRgb": null,
+      "removedPixels": null,
+      "pipeline": "gen-frames.py（AI 生成 → cutout 抠图 → despill → 归一化）",
+      "offset": {
+        "x": 0,
+        "y": 0
+      },
+      "scale": null,
+      "bounds": {
+        "left": 83,
+        "top": 38,
+        "right": 428,
+        "bottom": 472,
+        "width": 346,
+        "height": 435,
+        "centerX": 255.5
+      }
+    },
+    "idle_pillow_stretch": {
+      "source": "../idle_pillow_stretch.png",
+      "sourceSha256": "7515326f2f4f5c04bd816866f5b4972a1857521e5a67416c839120f6c98dc6b4",
+      "outputSha256": "ca9278ad12011e08597af4a8b40d0391a893c9fdc7508693383b6d606b6fd7c8",
+      "bytes": 37472,
+      "quality": 82,
+      "backgroundRgb": null,
+      "removedPixels": null,
+      "pipeline": "gen-frames.py（AI 生成 → cutout 抠图 → despill → 归一化）",
+      "offset": {
+        "x": 0,
+        "y": 0
+      },
+      "scale": null,
+      "bounds": {
+        "left": 71,
+        "top": 38,
+        "right": 440,
+        "bottom": 472,
+        "width": 370,
+        "height": 435,
+        "centerX": 255.5
+      }
+    },
+    "idle_pillow_angry": {
+      "source": "../idle_pillow_angry.png",
+      "sourceSha256": "2eaf5fb2fc4036fa20dc057d57fb1b911eedc3869fa942eeda8c0e4840de0155",
+      "outputSha256": "c16735e915f63837626a09547d38707de94b101235f10b22e8bca4aecf0079a8",
+      "bytes": 30868,
+      "quality": 82,
+      "backgroundRgb": null,
+      "removedPixels": null,
+      "pipeline": "gen-frames.py（AI 生成 → cutout 抠图 → despill → 归一化）",
+      "offset": {
+        "x": 0,
+        "y": 0
+      },
+      "scale": null,
+      "bounds": {
+        "left": 80,
+        "top": 38,
+        "right": 431,
+        "bottom": 472,
+        "width": 352,
+        "height": 435,
+        "centerX": 255.5
+      }
+    },
+    "idle_pillow_angry_block": {
+      "source": "../idle_pillow_angry_block.png",
+      "sourceSha256": "ae27f47f0b3b0a30811490b46014753481d77c81708ac31c95956c9a02b13e70",
+      "outputSha256": "126fb6c9130ab048259455478da919efd05aa37ae904f959dc60d0e16d7d2ab2",
+      "bytes": 31668,
+      "quality": 82,
+      "backgroundRgb": null,
+      "removedPixels": null,
+      "pipeline": "gen-frames.py（AI 生成 → cutout 抠图 → despill → 归一化）",
+      "offset": {
+        "x": 0,
+        "y": 0
+      },
+      "scale": null,
+      "bounds": {
+        "left": 84,
+        "top": 38,
+        "right": 426,
+        "bottom": 472,
+        "width": 343,
+        "height": 435,
+        "centerX": 255.0
+      }
+    }
+  }
+}

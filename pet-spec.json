@@ -1,0 +1,919 @@
+{
+  "$comment": "由 tools/dump-spec.cjs 从运行时代码导出，不要手改 —— 改 pet.js 后重新 dump",
+  "dumpedAt": "2026-10-06 13:53:35",
+  "asset": {
+    "styles": {
+      "big-fish": {
+        "has": [
+          "blocked.webp",
+          "idle_pillow_angry.webp",
+          "idle_pillow_angry_block.webp",
+          "idle_pillow_awake.webp",
+          "idle_pillow_blink.webp",
+          "idle_pillow_drowsy.webp",
+          "idle_pillow_eat.webp",
+          "idle_pillow_pat.webp",
+          "idle_pillow_sleep.webp",
+          "idle_pillow_startle.webp",
+          "idle_pillow_stretch.webp",
+          "idle_pillow_wave_1.webp",
+          "idle_pillow_wave_2.webp",
+          "idle_pillow_wave_3.webp",
+          "need_input.webp",
+          "ready_0.webp",
+          "ready_1.webp",
+          "ready_2.webp",
+          "ready_3.webp",
+          "working_0.webp",
+          "working_0_1.webp",
+          "working_1.webp"
+        ],
+        "count": 22
+      },
+      "whale-girl": {
+        "has": [
+          "blocked.webp",
+          "idle_pillow_angry.webp",
+          "idle_pillow_angry_block.webp",
+          "idle_pillow_awake.webp",
+          "idle_pillow_blink.webp",
+          "idle_pillow_drowsy.webp",
+          "idle_pillow_eat.webp",
+          "idle_pillow_pat.webp",
+          "idle_pillow_sleep.webp",
+          "idle_pillow_startle.webp",
+          "idle_pillow_stretch.webp",
+          "idle_pillow_wave_1.webp",
+          "idle_pillow_wave_2.webp",
+          "need_input.webp",
+          "ready_0.webp",
+          "ready_1.webp",
+          "ready_2.webp",
+          "ready_3.webp",
+          "ready_4.webp",
+          "working_0.webp",
+          "working_0_1.webp",
+          "working_1.webp",
+          "working_1_2.webp",
+          "working_2.webp",
+          "working_2_3.webp",
+          "working_3.webp"
+        ],
+        "count": 26
+      },
+      "whale-mature": {
+        "has": [
+          "blocked.webp",
+          "idle_pillow_angry.webp",
+          "idle_pillow_angry_block.webp",
+          "idle_pillow_awake.webp",
+          "idle_pillow_blink.webp",
+          "idle_pillow_drowsy.webp",
+          "idle_pillow_eat.webp",
+          "idle_pillow_pat.webp",
+          "idle_pillow_sleep.webp",
+          "idle_pillow_startle.webp",
+          "idle_pillow_stretch.webp",
+          "idle_pillow_wave_1.webp",
+          "idle_pillow_wave_2.webp",
+          "idle_pillow_wave_3.webp",
+          "need_input.webp",
+          "ready_0.webp",
+          "ready_1.webp",
+          "ready_2.webp",
+          "ready_3.webp",
+          "ready_4.webp",
+          "working_0.webp",
+          "working_1.webp",
+          "working_2.webp"
+        ],
+        "count": 23
+      },
+      "yuexin-miao": {
+        "has": [
+          "blocked.webp",
+          "greet_01.webp",
+          "greet_02.webp",
+          "greet_03.webp",
+          "greet_04.webp",
+          "greet_05.webp",
+          "greet_06.webp",
+          "greet_07.webp",
+          "greet_08.webp",
+          "greet_09.webp",
+          "greet_10.webp",
+          "greet_11.webp",
+          "greet_12.webp",
+          "greet_13.webp",
+          "greet_14.webp",
+          "greet_15.webp",
+          "greet_16.webp",
+          "greet_17.webp",
+          "greet_18.webp",
+          "greet_19.webp",
+          "greet_20.webp",
+          "greet_21.webp",
+          "greet_22.webp",
+          "greet_23.webp",
+          "greet_24.webp",
+          "greet_25.webp",
+          "greet_26.webp",
+          "greet_27.webp",
+          "greet_28.webp",
+          "idle_pillow_angry.webp",
+          "idle_pillow_angry_block.webp",
+          "idle_pillow_awake.webp",
+          "idle_pillow_blink.webp",
+          "idle_pillow_drowsy.webp",
+          "idle_pillow_eat.webp",
+          "idle_pillow_pat.webp",
+          "idle_pillow_sleep.webp",
+          "idle_pillow_startle.webp",
+          "idle_pillow_startle_2.webp",
+          "idle_pillow_startle_3.webp",
+          "idle_pillow_startle_4.webp",
+          "idle_pillow_startle_5.webp",
+          "idle_pillow_startle_6.webp",
+          "idle_pillow_stretch.webp",
+          "idle_pillow_wave_1.webp",
+          "idle_pillow_wave_2.webp",
+          "idle_pillow_wave_3.webp",
+          "miao_work_01.webp",
+          "miao_work_02.webp",
+          "miao_work_03.webp",
+          "miao_work_04.webp",
+          "need_input.webp",
+          "ready_1.webp",
+          "ready_2.webp",
+          "ready_3.webp",
+          "ready_4.webp",
+          "ready_5.webp"
+        ],
+        "count": 57
+      }
+    },
+    "styleDir": "assets/<style-id>/",
+    "frameSize": 512,
+    "format": "webp",
+    "sourceKeep": "pet-art/character/*.png（原图，别删）",
+    "background": "纯绿幕 #00FF00（AI 生成用，之后抠掉）",
+    "naming": "文件名 = FRAME_FILES 里的值；逻辑名可以不一样（比如 ready2 → ready）"
+  },
+  "frames": [
+    {
+      "logical": "awake",
+      "file": "idle_pillow_awake.webp"
+    },
+    {
+      "logical": "patHappy",
+      "file": "idle_pillow_pat.webp"
+    },
+    {
+      "logical": "eat",
+      "file": "idle_pillow_eat.webp"
+    },
+    {
+      "logical": "stretch",
+      "file": "idle_pillow_stretch.webp"
+    },
+    {
+      "logical": "angry",
+      "file": "idle_pillow_angry.webp"
+    },
+    {
+      "logical": "angryBlock",
+      "file": "idle_pillow_angry_block.webp"
+    },
+    {
+      "logical": "blink",
+      "file": "idle_pillow_blink.webp"
+    },
+    {
+      "logical": "drowsy",
+      "file": "idle_pillow_drowsy.webp"
+    },
+    {
+      "logical": "sleep",
+      "file": "idle_pillow_sleep.webp"
+    },
+    {
+      "logical": "startle",
+      "file": "idle_pillow_startle.webp"
+    },
+    {
+      "logical": "wave1",
+      "file": "idle_pillow_wave_1.webp"
+    },
+    {
+      "logical": "wave2",
+      "file": "idle_pillow_wave_2.webp"
+    },
+    {
+      "logical": "work0",
+      "file": "working_0.webp"
+    },
+    {
+      "logical": "work1",
+      "file": "working_0_1.webp"
+    },
+    {
+      "logical": "work2",
+      "file": "working_1.webp"
+    },
+    {
+      "logical": "work3",
+      "file": "working_1_2.webp"
+    },
+    {
+      "logical": "work4",
+      "file": "working_2.webp"
+    },
+    {
+      "logical": "work5",
+      "file": "working_2_3.webp"
+    },
+    {
+      "logical": "work6",
+      "file": "working_3.webp"
+    },
+    {
+      "logical": "needInput",
+      "file": "need_input.webp"
+    },
+    {
+      "logical": "wave3",
+      "file": "idle_pillow_wave_3.webp"
+    },
+    {
+      "logical": "startle2",
+      "file": "idle_pillow_startle_2.webp"
+    },
+    {
+      "logical": "startle3",
+      "file": "idle_pillow_startle_3.webp"
+    },
+    {
+      "logical": "startle4",
+      "file": "idle_pillow_startle_4.webp"
+    },
+    {
+      "logical": "startle5",
+      "file": "idle_pillow_startle_5.webp"
+    },
+    {
+      "logical": "startle6",
+      "file": "idle_pillow_startle_6.webp"
+    },
+    {
+      "logical": "blocked",
+      "file": "blocked.webp"
+    },
+    {
+      "logical": "ready0",
+      "file": "ready_0.webp"
+    },
+    {
+      "logical": "ready1",
+      "file": "ready_1.webp"
+    },
+    {
+      "logical": "ready2",
+      "file": "ready_2.webp"
+    },
+    {
+      "logical": "ready3",
+      "file": "ready_3.webp"
+    },
+    {
+      "logical": "ready4",
+      "file": "ready_4.webp"
+    },
+    {
+      "logical": "ready5",
+      "file": "ready_5.webp"
+    }
+  ],
+  "clips": [
+    {
+      "name": "idle",
+      "frames": [
+        "awake",
+        "blink",
+        "awake",
+        "blink"
+      ],
+      "frameCount": 4,
+      "durations": [
+        2700,
+        140,
+        1800,
+        120
+      ],
+      "loop": true,
+      "holdLast": false,
+      "motion": "morph",
+      "offsetX": null,
+      "offsetY": null
+    },
+    {
+      "name": "wave",
+      "frames": [
+        "awake",
+        "wave1",
+        "wave2",
+        "wave1",
+        "wave2",
+        "wave1",
+        "awake"
+      ],
+      "frameCount": 7,
+      "durations": [
+        80,
+        130,
+        180,
+        130,
+        180,
+        120,
+        100
+      ],
+      "loop": false,
+      "holdLast": false,
+      "motion": "morph",
+      "offsetX": null,
+      "offsetY": null
+    },
+    {
+      "name": "drowsy",
+      "frames": [
+        "drowsy"
+      ],
+      "frameCount": 1,
+      "durations": [
+        1000
+      ],
+      "loop": false,
+      "holdLast": true,
+      "motion": "still",
+      "offsetX": null,
+      "offsetY": null
+    },
+    {
+      "name": "sleep",
+      "frames": [
+        "sleep",
+        "sleep",
+        "sleep",
+        "sleep"
+      ],
+      "frameCount": 4,
+      "durations": [
+        520,
+        480,
+        520,
+        480
+      ],
+      "loop": true,
+      "holdLast": false,
+      "motion": "shift",
+      "offsetX": null,
+      "offsetY": [
+        0,
+        -3,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "startle",
+      "frames": [
+        "startle",
+        "startle",
+        "startle"
+      ],
+      "frameCount": 3,
+      "durations": [
+        340,
+        260,
+        300
+      ],
+      "loop": false,
+      "holdLast": true,
+      "motion": "shift",
+      "offsetX": null,
+      "offsetY": [
+        -5,
+        -2,
+        0
+      ]
+    },
+    {
+      "name": "patHappy",
+      "frames": [
+        "patHappy"
+      ],
+      "frameCount": 1,
+      "durations": [
+        1200
+      ],
+      "loop": false,
+      "holdLast": true,
+      "motion": "still",
+      "offsetX": null,
+      "offsetY": null
+    },
+    {
+      "name": "angry",
+      "frames": [
+        "angry",
+        "angryBlock"
+      ],
+      "frameCount": 2,
+      "durations": [
+        400,
+        2100
+      ],
+      "loop": false,
+      "holdLast": true,
+      "motion": "morph",
+      "offsetX": null,
+      "offsetY": null
+    },
+    {
+      "name": "balanceOk",
+      "frames": [
+        "awake"
+      ],
+      "frameCount": 1,
+      "durations": [
+        1600
+      ],
+      "loop": false,
+      "holdLast": true,
+      "motion": "still",
+      "offsetX": null,
+      "offsetY": null
+    },
+    {
+      "name": "balanceLow",
+      "frames": [
+        "drowsy"
+      ],
+      "frameCount": 1,
+      "durations": [
+        1600
+      ],
+      "loop": false,
+      "holdLast": true,
+      "motion": "still",
+      "offsetX": null,
+      "offsetY": null
+    },
+    {
+      "name": "balanceCritical",
+      "frames": [
+        "blocked"
+      ],
+      "frameCount": 1,
+      "durations": [
+        1600
+      ],
+      "loop": false,
+      "holdLast": true,
+      "motion": "still",
+      "offsetX": null,
+      "offsetY": null
+    },
+    {
+      "name": "needInput",
+      "frames": [
+        "needInput"
+      ],
+      "frameCount": 1,
+      "durations": [
+        1000
+      ],
+      "loop": true,
+      "holdLast": false,
+      "motion": "still",
+      "offsetX": null,
+      "offsetY": null
+    },
+    {
+      "name": "blocked",
+      "frames": [
+        "blocked"
+      ],
+      "frameCount": 1,
+      "durations": [
+        1000
+      ],
+      "loop": true,
+      "holdLast": false,
+      "motion": "still",
+      "offsetX": null,
+      "offsetY": null
+    },
+    {
+      "name": "awake",
+      "frames": [
+        "awake"
+      ],
+      "frameCount": 1,
+      "durations": [
+        [
+          2200,
+          4400
+        ]
+      ],
+      "loop": false,
+      "holdLast": true,
+      "motion": "still",
+      "offsetX": null,
+      "offsetY": null
+    },
+    {
+      "name": "blink",
+      "frames": [
+        "blink"
+      ],
+      "frameCount": 1,
+      "durations": [
+        130
+      ],
+      "loop": false,
+      "holdLast": true,
+      "motion": "still",
+      "offsetX": null,
+      "offsetY": null
+    },
+    {
+      "name": "slowBlink",
+      "frames": [
+        "blink"
+      ],
+      "frameCount": 1,
+      "durations": [
+        320
+      ],
+      "loop": false,
+      "holdLast": true,
+      "motion": "still",
+      "offsetX": null,
+      "offsetY": null
+    },
+    {
+      "name": "blinkTwice",
+      "frames": [
+        "blink",
+        "awake",
+        "blink"
+      ],
+      "frameCount": 3,
+      "durations": [
+        110,
+        150,
+        130
+      ],
+      "loop": false,
+      "holdLast": true,
+      "motion": "morph",
+      "offsetX": null,
+      "offsetY": null
+    },
+    {
+      "name": "eat",
+      "frames": [
+        "eat"
+      ],
+      "frameCount": 1,
+      "durations": [
+        [
+          1800,
+          2600
+        ]
+      ],
+      "loop": false,
+      "holdLast": true,
+      "motion": "still",
+      "offsetX": null,
+      "offsetY": null
+    },
+    {
+      "name": "stretch",
+      "frames": [
+        "stretch"
+      ],
+      "frameCount": 1,
+      "durations": [
+        [
+          2000,
+          3000
+        ]
+      ],
+      "loop": false,
+      "holdLast": true,
+      "motion": "still",
+      "offsetX": null,
+      "offsetY": null
+    }
+  ],
+  "dialogues": {
+    "idle": {
+      "fixed": false,
+      "note": "空闲 —— 没事干的时候",
+      "lines": [
+        "今天也要加油哦～",
+        "我在这儿陪着你",
+        "（发呆）",
+        "要不要休息一下？"
+      ],
+      "escalate": [
+        {
+          "afterMs": 15000,
+          "everyMs": 15000,
+          "repeat": true,
+          "lines": [
+            "（伸了个懒腰）",
+            "要不要歇一会儿？",
+            "（望着窗外发呆）",
+            "我在这儿呢",
+            "（甩了甩尾巴）",
+            "慢慢来，不着急"
+          ]
+        },
+        {
+          "afterMs": 40000,
+          "everyMs": 40000,
+          "repeat": false,
+          "lines": [
+            "好困……眼睛睁不开了",
+            "哈啊——（打哈欠）"
+          ]
+        },
+        {
+          "afterMs": 52000,
+          "everyMs": 52000,
+          "repeat": false,
+          "lines": [
+            "Zzz……",
+            "（睡着了，尾巴还在轻轻摆）"
+          ]
+        },
+        {
+          "afterMs": 120000,
+          "everyMs": 120000,
+          "repeat": false,
+          "lines": [
+            "……梦到好吃的了",
+            "（说梦话）不要抢我的鱼……"
+          ]
+        }
+      ]
+    },
+    "working": {
+      "fixed": false,
+      "note": "工作中 —— DSH 正在跑",
+      "lines": [
+        "正在努力中……",
+        "让我看看这个……",
+        "稍等，在跑了"
+      ],
+      "escalate": [
+        {
+          "afterMs": 10000,
+          "everyMs": 10000,
+          "repeat": true,
+          "lines": [
+            "还在写……",
+            "这段有点绕，我再想想",
+            "快好了快好了",
+            "（敲键盘的声音）",
+            "别催，在跑了"
+          ]
+        }
+      ]
+    },
+    "needsInput": {
+      "fixed": true,
+      "note": "需要人工确认 —— 她在等你",
+      "lines": [
+        "这里需要你确认一下！",
+        "有个操作要你点头 ✋",
+        "卡住了，等你决定"
+      ],
+      "escalate": [
+        {
+          "afterMs": 30000,
+          "everyMs": 30000,
+          "repeat": false,
+          "lines": [
+            "还在等你哦～",
+            "看这里看这里！"
+          ]
+        },
+        {
+          "afterMs": 120000,
+          "everyMs": 120000,
+          "repeat": false,
+          "lines": [
+            "喂——你还在吗？",
+            "我等得花都谢了"
+          ]
+        },
+        {
+          "afterMs": 300000,
+          "everyMs": 300000,
+          "repeat": false,
+          "lines": [
+            "你是不是把我忘了……",
+            "我举着手好累的"
+          ]
+        },
+        {
+          "afterMs": 600000,
+          "everyMs": 600000,
+          "repeat": false,
+          "lines": [
+            "……（默默放下手）",
+            "算了，我先睡一会儿"
+          ]
+        }
+      ]
+    },
+    "ready": {
+      "fixed": false,
+      "note": "任务完成 —— 可以验收了",
+      "lines": [
+        "完成啦！🎉",
+        "搞定～",
+        "这个我做完了！"
+      ],
+      "escalate": []
+    },
+    "blocked": {
+      "fixed": true,
+      "note": "出错 / 被卡住 —— 需要你介入",
+      "lines": [
+        "出错了……",
+        "这一步卡住了",
+        "好像不太对劲"
+      ],
+      "escalate": [
+        {
+          "afterMs": 30000,
+          "everyMs": 30000,
+          "repeat": false,
+          "lines": [
+            "卡在这儿了，你看看？",
+            "报错了，我不敢往下走"
+          ]
+        },
+        {
+          "afterMs": 120000,
+          "everyMs": 120000,
+          "repeat": false,
+          "lines": [
+            "还卡着呢……",
+            "要不要重新试一次？"
+          ]
+        },
+        {
+          "afterMs": 300000,
+          "everyMs": 300000,
+          "repeat": false,
+          "lines": [
+            "（蹲在角落里）",
+            "我是不是做错了什么……"
+          ]
+        },
+        {
+          "afterMs": 600000,
+          "everyMs": 600000,
+          "repeat": false,
+          "lines": [
+            "……",
+            "（已经不指望了）"
+          ]
+        }
+      ]
+    },
+    "sleep": {
+      "fixed": false,
+      "note": "睡着 —— 连续 50 秒没人理她",
+      "lines": [
+        "唔……眼睛闭上了……",
+        "（抱着小鱼干睡着了）",
+        "就眯一会儿……"
+      ],
+      "escalate": [
+        {
+          "afterMs": 40000,
+          "everyMs": 40000,
+          "repeat": true,
+          "lines": [
+            "（翻了个身）",
+            "……zzz",
+            "（尾巴轻轻摆了一下）",
+            "唔……再来一条小鱼干……",
+            "（睡得很香）"
+          ]
+        }
+      ]
+    },
+    "wave": {
+      "fixed": false,
+      "note": "时刻：你双击她打招呼",
+      "lines": [
+        "在的！",
+        "怎么啦？",
+        "嗯？（歪头）",
+        "我来啦～"
+      ],
+      "escalate": []
+    },
+    "startle": {
+      "fixed": false,
+      "note": "时刻：睡着时被叫醒",
+      "lines": [
+        "！（猛地抬头）",
+        "我、我没睡！",
+        "唔……几点了？"
+      ],
+      "escalate": []
+    },
+    "pat": {
+      "fixed": false,
+      "note": "时刻：你摸她的头",
+      "lines": [
+        "唔……（眯起眼睛）",
+        "嘿嘿～",
+        "再摸摸嘛",
+        "好舒服……"
+      ],
+      "escalate": []
+    },
+    "patAngry": {
+      "fixed": false,
+      "note": "时刻：你摸太快，她生气了",
+      "lines": [
+        "再摸就秃头了！",
+        "哼！（扭头）",
+        "别摸啦！"
+      ],
+      "escalate": []
+    }
+  },
+  "idleChain": [
+    {
+      "name": "awake",
+      "weight": 10,
+      "frames": [
+        "awake"
+      ],
+      "motion": "still"
+    },
+    {
+      "name": "blink",
+      "weight": 6,
+      "frames": [
+        "blink"
+      ],
+      "motion": "still"
+    },
+    {
+      "name": "slowBlink",
+      "weight": 3,
+      "frames": [
+        "blink"
+      ],
+      "motion": "still"
+    },
+    {
+      "name": "blinkTwice",
+      "weight": 2,
+      "frames": [
+        "blink",
+        "awake",
+        "blink"
+      ],
+      "motion": "morph"
+    },
+    {
+      "name": "eat",
+      "weight": 1,
+      "frames": [
+        "eat"
+      ],
+      "motion": "still"
+    },
+    {
+      "name": "stretch",
+      "weight": 1,
+      "frames": [
+        "stretch"
+      ],
+      "motion": "still"
+    }
+  ],
+  "idleChainTotalWeight": 23
+}
