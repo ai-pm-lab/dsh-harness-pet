@@ -1,0 +1,168 @@
+name: 打包
+
+# 什么时候跑：
+#   · 手动点（Actions 页面 → Run workflow）—— 平时调试试这个
+#   · 推 v* 标签 —— 发版时自动出安装包
+#
+# ⚠️ **不在每次 push 时跑** —— 打一次包要下载 ~100MB 的 Electron 二进制，
+#    而且 Windows 包只能在 Windows 上打（macOS 打要装 wine，模拟层不可靠）。
+#    平时 push 想验代码的话，本地跑 `npm test` 更快。
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+# 打 tag 时要能建 Release
+permissions:
+  contents: write
+
+jobs:
+  # ══════════════════════════════════════════════════════════════
+  # Windows
+  # ══════════════════════════════════════════════════════════════
+  windows:
+    # ⚠️ **必须是 windows-latest，不能在 macOS 上交叉编译。**
+    #    electron-builder 在 macOS 上打 Windows 包要装 wine，
+    #    而 wine 只能生成安装包、**不能验证它跑起来对不对**。
+    #    我们要的恰恰是"在真 Windows 上跑一遍测试"。
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # pnpm 版本跟本机一致（11.7.0）。lockfileVersion 是 9.0，
+      # pnpm 10+ 都能读；写死大版本免得哪天 pnpm 12 改了默认行为。
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      # frozen-lockfile：lockfile 和 package.json 对不上就直接失败，
+      # 而不是悄悄装一个不一样的版本树。
+      - name: 装依赖
+        run: pnpm install --frozen-lockfile
+
+      # ── 测试 ──
+      #
+      # ⚠️ 只在能跨平台的那几个上跑。**每个都标了为什么**：
+      #    · 7 个单测      —— 纯 Node，跨平台 ✅
+      #    · test-selftest —— 跑在 Electron 里，验渲染层 ✅
+      #    · verify:pet    —— 纯 Node，验素材完整性 ✅
+      #    · verify:assets —— ❌ 跳过：要 Python + numpy，
+      #                       而且它验的是"源素材 → webp"的构建产物，
+      #                       那是开发机上的事，不是打包该管的
+      - name: 单元测试
+        run: pnpm run test:unit
+
+      # ⚠️ **必须走 `tools/run-electron.mjs`，不能直接 `node test-selftest.cjs`。**
+      #
+      #    `test-selftest.cjs` 第一行 `require('electron')` 要的是 Electron 的
+      #    main 进程；**纯 Node 下 `require('electron')` 只返回"二进制路径字符串"**，
+      #    于是 `app` 是 undefined，直接崩：
+      #        TypeError: Cannot read properties of undefined (reading 'commandLine')
+      #
+      #    `package.json` 的 `test` 脚本原来就是这么写的，**一直是坏的** ——
+      #    没人发现是因为大家都手动跑那 7 个 `.mjs`，很少真敲 `npm test`。
+      #    写这个 workflow 的时候才暴露出来。
+      #
+      #    `run-electron.mjs` 跨平台找二进制（三平台路径不同），
+      #    并且**顺手清掉 `ELECTRON_RUN_AS_NODE`** —— 那个变量会让 Electron
+      #    当成纯 Node 跑：不起窗口、不报错、**退出码 0**，
+      #    表现是"测试什么都没做就说通过了"。
+      - name: 渲染层自检（在真的 Electron 里跑）
+        run: node tools/run-electron.mjs --no-sandbox test-selftest.cjs''
+
+      - name: 素材完整性
+        run: |
+          node tools/verify-pet.mjs big-fish
+          node tools/verify-pet.mjs whale-mature
+          node tools/verify-pet.mjs whale-girl
+          node tools/verify-pet.mjs yuexin-miao
+
+      # ── 打包 ──
+      #
+      # 用 build:win 而不是 build:win:clean —— 这是全新的 runner，
+      # dist/ 本来就是空的，不需要再清一次。
+      - name: 打包成安装包
+        run: pnpm run build:win
+        env:
+          # 国内网络下载 Electron 二进制会卡；这两个镜像是给 CI 兜底的。
+          # ⚠️ 如果哪次构建因为镜像挂了而失败，把这两行删掉就行 ——
+          #    GitHub 的 runner 在海外，直连本来就快。
+          ELECTRON_MIRROR: https://npmmirror.com/mirrors/electron/
+          ELECTRON_BUILDER_BINARIES_MIRROR: https://npmmirror.com/mirrors/electron-builder-binaries/
+
+      # ── 产物 ──
+      - name: 上传安装包
+        uses: actions/upload-artifact@v4
+        with:
+          name: 胖头鱼-windows-安装包
+          path: |
+            dist/*.exe
+            dist/*.blockmap
+          if-no-files-found: error      # ⚠️ 没产物就是失败，别让它静默过
+
+      # 打 tag 时顺便挂到 Release 上 —— 用户就是从这里下载的
+      - name: 挂到 Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*.exe
+            dist/*.blockmap
+          draft: true                   # ⚠️ 先存草稿，人工看一眼再发
+
+  # ══════════════════════════════════════════════════════════════
+  # macOS
+  # ══════════════════════════════════════════════════════════════
+  macos:
+    runs-on: macos-14                   # Apple Silicon（我们的 dmg 是 arm64）
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: 装依赖
+        run: pnpm install --frozen-lockfile
+
+      # ⚠️ **不重新生成图标。**
+      #    `build/icon.icns` 是**提交进仓库**的（`tools/make_icon.py` 生成），
+      #    在 CI 上重跑会白装 Pillow，而且 macOS 的图标缓存
+      #    是按 (路径, mtime) 算的 —— 重生成只会让缓存失效，
+      #    对产物没有任何好处。详见 README 的「图标必须撑满画布」。
+      - name: 打包成 dmg
+        run: pnpm run build:mac
+        env:
+          ELECTRON_MIRROR: https://npmmirror.com/mirrors/electron/
+          ELECTRON_BUILDER_BINARIES_MIRROR: https://npmmirror.com/mirrors/electron-builder-binaries/
+
+      - name: 上传安装包
+        uses: actions/upload-artifact@v4
+        with:
+          name: 胖头鱼-macos-安装包
+          path: |
+            dist/*.dmg
+            dist/*.blockmap
+          if-no-files-found: error
+
+      - name: 挂到 Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*.dmg
+            dist/*.blockmap
+          draft: true
