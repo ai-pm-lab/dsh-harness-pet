@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self';" />
+  <link rel="stylesheet" href="bubble.css" />
+</head>
+<body>
+  <!--
+    气泡整体是"永远点击穿透"的（见 main.js 里 setIgnoreMouseEvents(true)）。
+    所以这个窗口里不存在命中测试的问题 —— 透明区域不会挡住任何东西，
+    也就不需要像宠物窗口那样做 alpha 通道判断。
+  -->
+  <div id="wrap">
+    <div id="bubble">
+      <!-- 提示行：比如"大模型连接失败，以下为机翻：" -->
+      <p id="note"></p>
+      <p id="text"></p>
+      <!--
+        尾巴搬进 #bubble 里了（原来是 #wrap 的兄弟）。
+
+        ⚠️ 为什么：原来尾巴靠 #wrap 的 `align-items: center` 居中，
+           而 #bubble 是**另一个** flex 子项、也靠自己居中 ——
+           两个"各自居中"的东西，一旦 #bubble 的 `max-width: 100%` 生效
+           （内容长、气泡被撑到满宽或压窄），就可能算不到一起，
+           表现是**尾巴偏到一边**。用户截图里就偏右了，而我的渲染是居中的 ——
+           「依赖两边算出来一致」本身就是隐患。
+
+           搬进来之后，尾巴用绝对定位挂在**气泡自己**的底部正中，
+           不管气泡多高多宽都严丝合缝。
+      -->
+      <div id="tail"></div>
+    </div>
+  </div>
+
+  <script src="bubble.js"></script>
+</body>
+</html>

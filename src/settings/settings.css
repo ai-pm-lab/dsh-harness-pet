@@ -1,0 +1,127 @@
+/* 设置弹窗
+ *
+ * 系统字体 + 克制的配色，尽量像个原生对话框，
+ * 而不是"网页里嵌了个表单"。
+ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  padding: 20px 22px 18px;
+  font-family: -apple-system, "PingFang SC", "Hiragino Sans GB", sans-serif;
+  font-size: 13px;
+  color: #1d1d1f;
+  background: #f5f5f7;
+
+  /* 弹窗是固定的，不需要滚动 */
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+h1 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.hint {
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: #6e6e73;
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #3a3a3c;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  height: 28px;
+  padding: 0 9px;
+  font: inherit;
+  font-size: 12.5px;
+  color: #1d1d1f;
+  background: #fff;
+  border: 1px solid #d2d2d7;
+  border-radius: 6px;
+  outline: none;
+
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+input:focus {
+  border-color: #0071e3;
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
+}
+
+/* 地址和模型名跟着 Key 走，间距统一 */
+#baseUrl, #model { margin-bottom: 14px; }
+
+/* Key 那一行：输入框 + 测试按钮 */
+.row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.row input { flex: 1; min-width: 0; }
+
+button {
+  height: 28px;
+  padding: 0 14px;
+  font: inherit;
+  font-size: 12.5px;
+  border-radius: 6px;
+  border: 1px solid #d2d2d7;
+  background: #fff;
+  color: #1d1d1f;
+  cursor: default;
+}
+
+button:hover { background: #fafafa; }
+button:active { background: #f0f0f2; }
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+button.primary {
+  background: #0071e3;
+  border-color: #0071e3;
+  color: #fff;
+}
+button.primary:hover { background: #0077ed; }
+
+button.ghost { color: #3a3a3c; }
+
+/*
+ * 状态文本。
+ *
+ * 高度写死 —— 否则从"测试中…"变成结果时整块布局会跳，
+ * 按钮跟着上下移动，点起来很难受。
+ */
+.status {
+  height: 16px;
+  margin-top: 6px;
+  font-size: 11.5px;
+  line-height: 16px;
+  color: #6e6e73;
+}
+
+.status.ok { color: #1a7f37; }
+.status.fail { color: #c1272d; }
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}
