@@ -1,0 +1,186 @@
+{
+  "name": "Q版大肥鱼",
+  "order": 1,
+  "description": "Q版大肥鱼（女仆装）：22 帧。素材由出图工作区按《动作帧生成规格书》生成，512×512 / 内容高精确 435 / 站立基线统一 y=486 / 绿残留 0。",
+  "frameSize": 512,
+  "frames": [
+    {
+      "logical": "awake",
+      "file": "idle_pillow_awake.webp"
+    },
+    {
+      "logical": "blink",
+      "file": "idle_pillow_blink.webp"
+    },
+    {
+      "logical": "drowsy",
+      "file": "idle_pillow_drowsy.webp"
+    },
+    {
+      "logical": "sleep",
+      "file": "idle_pillow_sleep.webp"
+    },
+    {
+      "logical": "startle",
+      "file": "idle_pillow_startle.webp"
+    },
+    {
+      "logical": "eat",
+      "file": "idle_pillow_eat.webp"
+    },
+    {
+      "logical": "stretch",
+      "file": "idle_pillow_stretch.webp"
+    },
+    {
+      "logical": "patHappy",
+      "file": "idle_pillow_pat.webp"
+    },
+    {
+      "logical": "angry",
+      "file": "idle_pillow_angry.webp"
+    },
+    {
+      "logical": "angryBlock",
+      "file": "idle_pillow_angry_block.webp"
+    },
+    {
+      "logical": "needInput",
+      "file": "need_input.webp"
+    },
+    {
+      "logical": "blocked",
+      "file": "blocked.webp"
+    },
+    {
+      "logical": "wave1",
+      "file": "idle_pillow_wave_1.webp"
+    },
+    {
+      "logical": "wave2",
+      "file": "idle_pillow_wave_2.webp"
+    },
+    {
+      "logical": "wave3",
+      "file": "idle_pillow_wave_3.webp"
+    },
+    {
+      "logical": "work0",
+      "file": "working_0.webp"
+    },
+    {
+      "logical": "work1",
+      "file": "working_0_1.webp"
+    },
+    {
+      "logical": "work2",
+      "file": "working_1.webp"
+    },
+    {
+      "logical": "work4",
+      "file": "working_2.webp"
+    },
+    {
+      "logical": "ready0",
+      "file": "ready_0.webp"
+    },
+    {
+      "logical": "ready1",
+      "file": "ready_1.webp"
+    },
+    {
+      "logical": "ready2",
+      "file": "ready_2.webp"
+    },
+    {
+      "logical": "ready3",
+      "file": "ready_3.webp"
+    }
+  ],
+  "clips": {
+    "wave": {
+      "note": "挥手：抬手 → 抬高 → 举到最高 → 再落回。五帧来回，比只有两帧更像在挥手。",
+      "frames": [
+        "wave1",
+        "wave2",
+        "wave3",
+        "wave2",
+        "wave1"
+      ],
+      "durations": [
+        180,
+        140,
+        160,
+        140,
+        180
+      ],
+      "loop": false,
+      "holdLast": true
+    },
+    "working": {
+      "note": "工作中：对着电脑敲键盘。三帧往复 —— 手抬（work0）和眨眼（work2）各一帧，再加一张 work4。\n    ⚠️ **这三帧是同一位画师按同一规格生成**，电脑的颜色/位置/大小天然一致，不需要靠后期合成。\n    ⚠️ **不要用 work1/work3/work5** —— 那是引擎的**过渡帧**（working_0_1 等），本套素材没有对应文件（见素材的《映射表.json》）。",
+      "frames": [
+        "work0",
+        "work2",
+        "work0",
+        "work4"
+      ],
+      "durations": [
+        220,
+        200,
+        160,
+        200
+      ],
+      "loop": true
+    },
+    "ready": {
+      "note": "完成庆祝：起跳 → 顶点滞空 → 落地 → 站定，**重复 5 次**（约 5.8 秒）。\n    ⚠️ **必须把重复写进帧序里** —— 因为 `clipFor()` 先查 manifest 的 `clips`，\n       一旦这里定义了 `ready`，代码里的 `readyCycle() + JUMP_TIMES`（也是 5 次）\n       就被**顶掉了**。第一版这里只写了 4 帧（1 个周期），用户反馈\"完成状态的循环只有一次\"。\n       月薪喵当年就是靠 25 帧（5 帧 × 5 次）达到同样效果的。",
+      "frames": [
+        "ready0",
+        "ready1",
+        "ready2",
+        "ready3",
+        "ready0",
+        "ready1",
+        "ready2",
+        "ready3",
+        "ready0",
+        "ready1",
+        "ready2",
+        "ready3",
+        "ready0",
+        "ready1",
+        "ready2",
+        "ready3",
+        "ready0",
+        "ready1",
+        "ready2",
+        "ready3"
+      ],
+      "durations": [
+        180,
+        340,
+        160,
+        480,
+        180,
+        340,
+        160,
+        480,
+        180,
+        340,
+        160,
+        480,
+        180,
+        340,
+        160,
+        480,
+        180,
+        340,
+        160,
+        480
+      ],
+      "loop": false,
+      "holdLast": true
+    }
+  }
+}
