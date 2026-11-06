@@ -1,0 +1,35 @@
+# 统一换行符 —— 见下面"为什么要这个文件"
+#
+# ⚠️ **不写这个文件时，Windows 上 git 会按 core.autocrlf 检出成 CRLF**，
+#    于是同一个源文件在不同平台上的**字符距离不一样**。
+#
+#    实测踩到的（CI windows-latest）：
+#      test-mainmenu.mjs 里有个断言用 `function greet[\s\S]{0,900}?reportMoment`
+#      —— 在 LF 下距离是 **894** 字符（余量 6），CRLF 下变成 **923** → 超窗 → 测试红。
+#      而 macOS 上一直是绿的，所以这个坑藏了很久。
+#
+# ⇒ 统一 LF 之后，任何平台检出都是同一份字节，这类"按字符数卡窗口"的断言才可移植。
+#    （这类断言本身也有点脆，那 3 处已经顺手把窗口放宽到 1200。）
+#
+* text=auto eol=lf
+
+# 二进制：别让 git 做换行转换
+*.webp  binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.icns  binary
+*.ico   binary
+*.ttf   binary
+*.otf   binary
+*.dmg   binary
+*.exe   binary
+*.7z    binary
+*.zip   binary
+*.spriteatlas binary
+
+# 这些本来就是 Windows 用的，保持它自己的格式
+*.bat   text eol=crlf
+*.cmd   text eol=crlf
+*.ps1   text eol=crlf
