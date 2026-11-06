@@ -1,0 +1,32 @@
+# ⚠️ 这两个值原来都是 pnpm 留的**占位文本**：
+#      electron: set this to true or false
+#   那不是布尔值，是让你改成 true/false 的提示。留着它的后果是
+#   **`pnpm install` 每次都以 1 退出**（ERR_PNPM_IGNORED_BUILDS），
+#   进而让 `pnpm test` 直接失败 —— 而单跑 `node test-*.mjs` 却是绿的，
+#   所以很难注意到。
+#
+#   为什么允许这两个跑脚本：
+#     · electron            —— postinstall 要落 Electron 二进制
+#     · electron-winstaller —— 只有打 Windows 包时才用得上，但它是
+#                              electron-builder 的直接依赖，一样要放行
+allowBuilds:
+  electron: true
+  electron-winstaller: true
+
+# electron-builder 26.15.3 要 `ElectronDownloadCacheMode` 这个导出，
+# 而它只在 @electron/get@3 里才有；它自己的依赖树里解析到了 2.0.0，
+# 于是 `get_1.ElectronDownloadCacheMode.ReadWrite` 直接崩：
+#     TypeError: Cannot read properties of undefined (reading 'ReadWrite')
+# 这是包的依赖没跟上，不是我们的配置问题 —— 用 overrides 顶上去。
+#
+# ⚠️ **必须是 ^3.1.0，不能写 ^3.0.0。** 那个枚举是 3.1.0 才加进去的：
+#      @electron/get@3.0.0  导出 getHostArch, initializeProxy, downloadArtifact, download
+#      @electron/get@3.1.0  上面这些 + GotDownloader + **ElectronDownloadCacheMode** ✅
+#    写 ^3.0.0 的话 pnpm 会解析到最低满足版 3.0.0，照样崩 —— 实测踩过。
+#
+# ⚠️ **必须写在 pnpm-workspace.yaml 里。**
+#    新版 pnpm 已经**不再读 `package.json` 的 `pnpm.overrides`** 了
+#    （实测警告：The "pnpm" field in package.json is no longer read by pnpm），
+#    写在那里会被**静默忽略** —— 表现为"改了配置但什么都没发生"。
+overrides:
+  '@electron/get': ^3.1.0
