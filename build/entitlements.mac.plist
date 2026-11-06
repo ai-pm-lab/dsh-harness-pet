@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- ⚠️ 这一条是**必须的**，不是可选优化。
+       ad-hoc 签名（identity: "-"）+ hardenedRuntime 时，macOS 会做
+       **库验证**：app 只允许加载"和主二进制同签名"的库。
+       而 Electron 内部会 dlopen 一堆没签名的东西 → 库验证失败 →
+       **app 启动后立刻死**（系统日志里是 `CAS notification for appDeath`，
+       进程数 0，没有任何报错输出 —— 极难查）。
+
+       electron-builder 自己会警告：
+         "ad-hoc signing with hardenedRuntime enabled requires the
+          com.apple.security.cs.disable-library-validation entitlement
+          to prevent app launch failures due to library validation." -->
+  <key>com.apple.security.cs.disable-library-validation</key>
+  <true/>
+
+  <!-- Electron 的 V8 要 JIT，必须允许 -->
+  <key>com.apple.security.cs.allow-jit</key>
+  <true/>
+  <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+  <true/>
+  <key>com.apple.security.cs.allow-dyld-environment-variables</key>
+  <true/>
+</dict>
+</plist>
