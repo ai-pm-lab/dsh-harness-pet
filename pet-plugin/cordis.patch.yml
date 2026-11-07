@@ -1,0 +1,13 @@
+# 鲸鱼娘桌宠的 profile 补丁。
+#
+# 这个文件是「清单」，不是安装产物 —— 真正写进 profile 的是
+# install-plugin.sh 生成的那一段托管区块（带绝对路径）。
+#
+# 之所以不用 `dsh plugin add`：那个路径依赖 pnpm + npm registry，
+# 而插件是零依赖的，直接用绝对路径加载最省事，也保证
+# 插件版本永远跟 App 一起走。
+- insert:
+    - id: dsh-harness-pet
+      name: 'dsh-harness-pet'
+      config:
+        verbose: false
