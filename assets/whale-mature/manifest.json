@@ -1,0 +1,210 @@
+{
+  "name": "成熟鲸鱼娘",
+  "order": 2,
+  "description": "成熟比例（6~7 头身）蓝色鲸鱼娘 · 动作帧 23 张，无损 webp（从 _引擎交付-webp 逐字节重装）",
+  "version": 1,
+  "canvasSize": 512,
+  "frames": [
+    {
+      "logical": "awake",
+      "file": "idle_pillow_awake.webp"
+    },
+    {
+      "logical": "blink",
+      "file": "idle_pillow_blink.webp"
+    },
+    {
+      "logical": "drowsy",
+      "file": "idle_pillow_drowsy.webp"
+    },
+    {
+      "logical": "sleep",
+      "file": "idle_pillow_sleep.webp"
+    },
+    {
+      "logical": "startle",
+      "file": "idle_pillow_startle.webp"
+    },
+    {
+      "logical": "eat",
+      "file": "idle_pillow_eat.webp"
+    },
+    {
+      "logical": "stretch",
+      "file": "idle_pillow_stretch.webp"
+    },
+    {
+      "logical": "patHappy",
+      "file": "idle_pillow_pat.webp"
+    },
+    {
+      "logical": "angry",
+      "file": "idle_pillow_angry.webp"
+    },
+    {
+      "logical": "angryBlock",
+      "file": "idle_pillow_angry_block.webp"
+    },
+    {
+      "logical": "wave1",
+      "file": "idle_pillow_wave_1.webp"
+    },
+    {
+      "logical": "wave2",
+      "file": "idle_pillow_wave_2.webp"
+    },
+    {
+      "logical": "wave3",
+      "file": "idle_pillow_wave_3.webp"
+    },
+    {
+      "logical": "work0",
+      "file": "working_0.webp"
+    },
+    {
+      "logical": "work2",
+      "file": "working_1.webp"
+    },
+    {
+      "logical": "work4",
+      "file": "working_2.webp"
+    },
+    {
+      "logical": "needInput",
+      "file": "need_input.webp"
+    },
+    {
+      "logical": "blocked",
+      "file": "blocked.webp"
+    },
+    {
+      "logical": "ready0",
+      "file": "ready_0.webp"
+    },
+    {
+      "logical": "ready1",
+      "file": "ready_1.webp"
+    },
+    {
+      "logical": "ready2",
+      "file": "ready_2.webp"
+    },
+    {
+      "logical": "ready3",
+      "file": "ready_3.webp"
+    },
+    {
+      "logical": "ready4",
+      "file": "ready_4.webp"
+    }
+  ],
+  "clips": {
+    "working": {
+      "frames": [
+        "work0",
+        "work2",
+        "work0",
+        "work4"
+      ],
+      "durations": [
+        230,
+        240,
+        200,
+        300
+      ],
+      "offsetY": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "loop": true
+    },
+    "ready": {
+      "frames": [
+        "ready0",
+        "ready1",
+        "ready3",
+        "ready2",
+        "ready4",
+        "ready0",
+        "ready1",
+        "ready3",
+        "ready2",
+        "ready4",
+        "ready0",
+        "ready1",
+        "ready3",
+        "ready2",
+        "ready4",
+        "ready0",
+        "ready1",
+        "ready3",
+        "ready2",
+        "ready4",
+        "ready0",
+        "ready1",
+        "ready3",
+        "ready2",
+        "ready4"
+      ],
+      "durations": [
+        160,
+        300,
+        140,
+        150,
+        430,
+        160,
+        300,
+        140,
+        150,
+        430,
+        160,
+        300,
+        140,
+        150,
+        430,
+        160,
+        300,
+        140,
+        150,
+        430,
+        160,
+        300,
+        140,
+        150,
+        430
+      ],
+      "offsetY": [
+        -3,
+        -7,
+        -1,
+        1,
+        0,
+        -3,
+        -7,
+        -1,
+        1,
+        0,
+        -3,
+        -7,
+        -1,
+        1,
+        0,
+        -3,
+        -7,
+        -1,
+        1,
+        0,
+        -3,
+        -7,
+        -1,
+        1,
+        0
+      ],
+      "loop": false
+    }
+  },
+  "clipsNote": "clips 用的是引擎逻辑名。接入方按 映射表.json 把图改名后，这两个片段的帧序可直接照抄；⚠️ 切勿改成 work0/work1/work2 —— work1 是过渡帧 working_0_1，本套没有。\n⚠️ 以下两处**经用户确认，保持现状、不需要改**（2026-10-06）：\n  1. `ready` 的帧序是 ready0 → ready1 → ready3 → ready2 → ready4\n     （ready3 和 ready2 换了位：跳到顶点 → 落地后欢呼 → 收势）。\n     惯例写法是 0→1→2→3→4，两种都讲得通，**交付方定的是现在这种**。\n  2. `working` 里的 work2（working_1.webp，两手抬到胸前）\n     在循环里比前后两帧（手在键盘上）突兀一些 —— 也是交付原样。\n  → 以后**不要再把这两处当问题报出来**，也不要擅自改 clips 的帧序。",
+  "$verified": "素材由 out-of-repo 的出图工作区按《动作帧生成规格书》生成，从 `桌宠素材/蓝色鲸鱼娘-成熟比例/_引擎交付-webp/` **逐字节重装**（sha256 全部一致）。\n   接入时保留了交付 manifest 的 `clips` 原样，只把 `file` 改成引擎期望的文件名、`logical` 改成引擎逻辑名（`FRAME_FILES` 那套）。"
+}

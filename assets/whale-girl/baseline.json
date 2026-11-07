@@ -1,0 +1,97 @@
+{
+  "note": "资产基线：不透明面积 + 封闭空洞清单。改动资产后确认无误，再跑 --update-baseline 刷新。封闭空洞只与基线对比 —— 角色肢体间自然围出的空隙也是封闭的，所以不能用绝对阈值判定。",
+  "canvas": 512,
+  "alphaMin": 24,
+  "assets": {
+    "blocked": {
+      "area": 55981,
+      "holes": []
+    },
+    "idle_pillow_awake": {
+      "area": 81155,
+      "holes": []
+    },
+    "idle_pillow_blink": {
+      "area": 80920,
+      "holes": []
+    },
+    "idle_pillow_drowsy": {
+      "area": 82275,
+      "holes": []
+    },
+    "idle_pillow_pat": {
+      "area": 81784,
+      "holes": []
+    },
+    "idle_pillow_sleep": {
+      "area": 89140,
+      "holes": []
+    },
+    "idle_pillow_startle": {
+      "area": 84886,
+      "holes": [
+        3565
+      ]
+    },
+    "idle_pillow_wave_1": {
+      "area": 80928,
+      "holes": []
+    },
+    "idle_pillow_wave_2": {
+      "area": 83290,
+      "holes": []
+    },
+    "need_input": {
+      "area": 53752,
+      "holes": []
+    },
+    "ready": {
+      "area": 61661,
+      "holes": []
+    },
+    "ready_0": {
+      "area": 59771,
+      "holes": []
+    },
+    "ready_1": {
+      "area": 55005,
+      "holes": []
+    },
+    "ready_3": {
+      "area": 62340,
+      "holes": []
+    },
+    "ready_4": {
+      "area": 57625,
+      "holes": []
+    },
+    "working_0": {
+      "area": 75345,
+      "holes": []
+    },
+    "working_0_1": {
+      "area": 73533,
+      "holes": []
+    },
+    "working_1": {
+      "area": 73728,
+      "holes": []
+    },
+    "working_1_2": {
+      "area": 75573,
+      "holes": []
+    },
+    "working_2": {
+      "area": 77080,
+      "holes": []
+    },
+    "working_2_3": {
+      "area": 75580,
+      "holes": []
+    },
+    "working_3": {
+      "area": 75075,
+      "holes": []
+    }
+  }
+}
