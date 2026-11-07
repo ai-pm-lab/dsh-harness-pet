@@ -1,0 +1,220 @@
+/* 气泡窗口样式
+ *
+ * 约束：窗口背景必须完全透明。气泡之外的地方不能有任何可见像素，
+ * 否则桌面上会多出一块方块。
+ *
+ * 配色跟角色走：白色外套 + 深蓝描边 + 一点点青。
+ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+
+  /* 整个窗口点击穿透，气泡本身也不接管事件 */
+  pointer-events: none;
+
+  font-family: -apple-system, "PingFang SC", "Hiragino Sans GB", sans-serif;
+}
+
+/* 整块靠下对齐：气泡贴窗口底部，尾巴从底部伸出去指向宠物 */
+#wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  /*
+   * ⚠️ 内边距必须**大于阴影的扩散范围**，否则阴影会被窗口边界硬切
+   * （踩过：原本是 6px 8px 0，而阴影是 `0 4px 14px` ——
+   *   左右只有 8px、下方 0px，阴影在边界处突然截断，很显眼）。
+   *
+   * 阴影需要的空间：左右 14px、上方 14-4=10px、下方 14+4=18px。
+   * 这里给 20/20/22，留一点余量。
+   */
+  padding: 20px 20px 22px;
+
+  /* 入场：轻微上浮 + 淡入。用 transform 而不是 top，避免触发布局 */
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 160ms ease-out, transform 160ms ease-out;
+}
+
+#wrap.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#bubble {
+  position: relative;
+
+  /*
+   * ⚠️ 这两行是必须的，缺了会塌缩成一字一行。
+   *
+   * #bubble 是列向 flex 的子项，而 flex 子项的宽度默认按内容收缩。
+   * 配合 word-break: break-word（它会把 min-content 宽度压到 1 个字符），
+   * 结果就是气泡窄成一条、文字竖着排。
+   *
+   * width: max-content  → 先按"整句不换行"的自然宽度
+   * max-width: 100%      → 超出窗口时再换行
+   */
+  width: max-content;
+  max-width: 100%;
+  padding: 10px 14px;
+
+  background: #ffffff;
+  border: 2px solid #1b3a6b;
+  border-radius: 14px;
+
+  /* 柔和投影，让气泡从桌面背景里浮起来 */
+  box-shadow: 0 4px 14px rgba(12, 30, 60, 0.28);
+}
+
+/*
+ * 提示行。比正文小一号、颜色偏灰，并加一条下分隔线 ——
+ * 它和正文是两种信息（"这是怎么来的" vs "内容本身"），
+ * 不加区分的话用户会以为提示也是译文的一部分。
+ */
+#note {
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: #9a6a1a;
+  text-align: center;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+  border-bottom: 1px dashed rgba(154, 106, 26, 0.35);
+}
+
+#note:empty { display: none; }
+
+#text {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #16233c;
+  text-align: center;
+
+  /* 用 overflow-wrap 而不是 word-break：
+   * 前者只在单词确实放不下时才断，且**不改变 min-content 宽度**；
+   * 后者会参与 min-content 计算，正是上面那个塌缩的帮凶。 */
+  overflow-wrap: break-word;
+}
+
+/*
+ * 尾巴：一个旋转 45° 的方块，只露出下半截，
+ * 这样不用画三角形也能有描边，和气泡的边框自然接上。
+ *
+ * ⚠️⚠️ **`margin-top` 必须让"左右两个顶点"藏进气泡里，不能只藏一半。**
+ *
+ *    这个方块旋转 45° 后，包围盒是 17×17，四个顶点分别在
+ *    "中心上下左右各 8.5px" 处。我们只想要**下面那个顶点**露出来当尖角，
+ *    左右两个顶点必须被气泡盖住。
+ *
+ *    踩过的坑（用户报「气泡变长会导致气泡尖角异常」）：
+ *    原来是 `-7px`，于是元素中心落在**气泡底边上方 1px** ——
+ *    左右两个顶点几乎**贴在气泡底边上**，抗锯齿一糊就露出来半截。
+ *    而这两个"肩膀"**没有描边**（#tail 只画了 border-right / border-bottom），
+ *    所以左边那个是**纯白色方块**，在深色桌面上非常显眼。
+ *
+ *    改成 `-10px`：中心落进气泡内 4px，左右顶点完全被盖住，
+ *    只留下面那个尖角。顺带尖角离气泡更近，看着更像"长出来的"。
+ *
+ *    算一遍（气泡底边为 0，向下为正）：
+ *      元素盒子上边 = -10
+ *      元素中心     = -10 + 6 = -4        ← 在气泡内
+ *      左右顶点     = -4                  ← 被盖住 ✅
+ *      下顶点(尖角) = -4 + 8.5 = +4.5     ← 露出来 ✅
+ */
+#tail {
+  /*
+   * ⚠️⚠️ **绝对定位在 #bubble 里，不要改回 flex 子项。**
+   *
+   * 原来它是 #wrap 的兄弟，靠 `align-items: center` 居中 ——
+   * 而 #bubble 是**另一个** flex 子项、也靠自己居中。
+   * 两个"各自居中"的东西，一旦 #bubble 的 `max-width: 100%` 生效
+   * （内容长、气泡被撑到满宽或压窄），就可能算不到一起，
+   * 表现是**尾巴偏到一边**（用户截图里就偏右了，而我的渲染是居中的 ——
+   * 「依赖两边算出来一致」本身就是隐患）。
+   *
+   * 现在是 `#bubble { position: relative }` 的子元素：
+   *   left 50% + margin-left -6px（自身宽的一半）→ **永远在气泡底部正中**，
+   *   不管气泡多高多宽。
+   */
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  margin-left: -6px;               /* 自身宽度 12px 的一半 */
+
+  width: 12px;
+  height: 12px;
+
+  /*
+   * ⚠️ **`bottom` 要让"左右两个顶点"藏进气泡里。**
+   *    方块旋转 45° 后包围盒 17×17，四个顶点在中心上下左右各 8.5px 处。
+   *    只想要**下面那个**露出来当尖角，左右两个必须被盖住 ——
+   *    它们**没有描边**（只画了 border-right / border-bottom），
+   *    露出来就是**纯白色方块**，在深色桌面上非常显眼（踩过）。
+   *
+   *    算一遍（气泡底边为 0，向下为正）：
+   *      元素下边 = bottom(-8)，元素中心 = -8 + 6 = -2   ← 在气泡内
+   *      左右顶点 = -2                                  ← 被盖住 ✅
+   *      下顶点   = -2 + 8.5 = +6.5                     ← 露出来当尖角 ✅
+   *    （历史：最早是 `margin-top: -7px`，中心落在 -1px、正好贴边，
+   *      抗锯齿一糊就露出白肩膀。）
+   */
+
+  background: #ffffff;
+  border-right: 2px solid #1b3a6b;
+  border-bottom: 2px solid #1b3a6b;
+  transform: rotate(45deg);
+  border-bottom-right-radius: 3px;
+}
+
+/* 需要人工确认时换成暖色，让人一眼看出"这个不是普通提示" */
+#wrap.attention #bubble {
+  background: #fff8e6;
+  border-color: #b8791a;
+}
+#wrap.attention #tail {
+  background: #fff8e6;
+  border-color: #b8791a;
+}
+#wrap.attention #text { color: #6b4406; }
+
+/* 出错时换成红色调 */
+#wrap.error #bubble {
+  background: #fff0f0;
+  border-color: #a52a2a;
+}
+#wrap.error #tail {
+  background: #fff0f0;
+  border-color: #a52a2a;
+}
+#wrap.error #text { color: #7a1c1c; }
+
+/* 划词翻译：偏冷的青蓝色，和"提示/报错"都不一样 */
+#wrap.translate #bubble {
+  background: #f2f8ff;
+  border-color: #2a6bb8;
+  max-width: 100%;
+}
+#wrap.translate #tail {
+  background: #f2f8ff;
+  border-color: #2a6bb8;
+}
+#wrap.translate #text {
+  color: #14324f;
+  text-align: left;          /* 译文可能较长，左对齐更好读 */
+  white-space: pre-wrap;     /* 原文和译文之间用换行分隔 */
+}
+
+/* 尊重系统的「减少动态效果」 */
+@media (prefers-reduced-motion: reduce) {
+  #wrap { transition: none; }
+}

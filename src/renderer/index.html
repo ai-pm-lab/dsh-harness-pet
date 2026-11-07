@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; img-src 'self' file:; style-src 'self' 'unsafe-inline'; script-src 'self'" />
+  <title>胖头鱼</title>
+  <link rel="stylesheet" href="pet.css" />
+</head>
+<body>
+  <!-- 整个窗口透传鼠标，只有 #pet 命中时才接管 -->
+  <div id="stage">
+    <img id="pet" alt="胖头鱼" draggable="false" />
+    <!-- 摸头摸够了下会冒一颗爱心。用 CSS 画的，不需要素材 -->
+    <div id="heart">❤</div>
+    <!--
+      缩放手柄（右下角）。
+
+      ⚠️ **只在鼠标进入宠物范围时才显示**（加 .show 类），平时完全透明 ——
+         否则一个常驻的小三角会一直挂在桌面上，很碍眼。
+
+      ⚠️ 它落在**透明区**（宠物轮廓右下角外侧），所以渲染层的
+         "鼠标在不在宠物上"判定必须把它算进去，否则会出现
+         "手柄出现 → 鼠标移过去 → 判定为穿透 → 手柄消失"的闪烁死循环。
+
+      ⚠️ 双击是"恢复默认大小"，所以它的 dblclick 必须 stopPropagation ——
+         双击宠物本体是"打招呼"，两边会打架。
+    -->
+    <div id="resize-handle" title="拖动缩放 · 双击恢复默认大小"></div>
+    <!-- 并发会话数角标：除了当前会话，还有几个在跑 -->
+    <div id="badge"></div>
+  </div>
+
+  <!-- 音效要在 pet.js 之前加载：pet.js 启动时会调 armUnlock() -->
+  <!-- 状态名的中文映射。要放在 pet.js 之前：它建状态时就用到 -->
+  <script src="../state-labels.js"></script>
+  <script src="sounds.js"></script>
+  <script src="pat.js"></script>
+  <script src="pet.js"></script>
+</body>
+</html>
